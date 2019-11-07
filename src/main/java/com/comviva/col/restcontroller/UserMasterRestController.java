@@ -3,6 +3,7 @@ package com.comviva.col.restcontroller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class UserMasterRestController {
 	 * @return
 	 * @throws DuplicateException
 	 */
+	@PreAuthorize("hasRole('ADMIN')")
 	@CrossOrigin
 	@PostMapping(value = "/userMaster", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addUserMaster(@RequestBody UserMaster userMaster) throws DuplicateException {
@@ -52,6 +54,7 @@ public class UserMasterRestController {
 	 * @return
 	 * @throws Exception
 	 */
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@CrossOrigin
 	@GetMapping(value = "/userMaster/{id}")
 	public ResponseEntity<?> getUserMaster(@PathVariable int id) {
@@ -65,6 +68,7 @@ public class UserMasterRestController {
 	 * @return
 	 * @throws NotFoundException
 	 */
+	@PreAuthorize("hasRole('ADMIN')")
 	@CrossOrigin
 	@GetMapping(value = "userMaster/type/{type}")
 	public ResponseEntity<?> getListUserMasterByType(@PathVariable int type) throws NotFoundException {
@@ -78,6 +82,7 @@ public class UserMasterRestController {
 	 * @return
 	 * @throws Exception
 	 */
+	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@PutMapping(value = "/userMaster")
 	public ResponseEntity<?> updateUserMaster(@RequestBody UserMaster userMaster) throws NotFoundException {
 		return ResponseEntity.ok(userMasterService.updateUserMaster(userMaster));
@@ -90,6 +95,7 @@ public class UserMasterRestController {
 	 * @return
 	 * @throws NotFoundException
 	 */
+	@PreAuthorize("hasAnyRole('ADMIN', 'CIRCLE')")
 	@GetMapping(value = "userMaster/parentId/{parentId}")
 	public ResponseEntity<?> getListUserMasterByParentId(@PathVariable int parentId) throws NotFoundException {
 		return ResponseEntity.ok(userMasterService.viewAllByParentId(parentId));

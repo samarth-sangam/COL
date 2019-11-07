@@ -2,6 +2,7 @@ package com.comviva.col.restcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.comviva.col.utils.PasswordEncryption;
  */
 @RestController
 @RequestMapping(value = "/api/v1/login/")
+@CrossOrigin
 public class LoginRestController {
 
 	@Autowired
@@ -33,6 +35,7 @@ public class LoginRestController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/userId")
+	@CrossOrigin
 	public ResponseEntity<?> loginUsingUserId(@RequestParam int userId, @RequestParam String password)
 			throws Exception {
 		return ResponseEntity.ok(userMasterService.loginUsingUserId(userId, PasswordEncryption.encrypt(password)));
@@ -48,6 +51,7 @@ public class LoginRestController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/mobileNumber")
+	@CrossOrigin
 	public ResponseEntity<?> loginUsingMobileNumber(@RequestParam String mobileNumber, @RequestParam String password)
 			throws Exception {
 		return ResponseEntity.ok(userMasterService.loginUsingMobileNumber(mobileNumber, password));
@@ -62,6 +66,7 @@ public class LoginRestController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/{id}/resetPassword")
+	@CrossOrigin
 	public ResponseEntity<?> resetPassword(@PathVariable int id, @RequestParam String password) throws Exception {
 		return ResponseEntity.ok(userMasterService.resetPassword(id, password));
 

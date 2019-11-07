@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.comviva.col.utils.dto.ActivationReportDto;
-import com.comviva.col.utils.dto.ChequeReportDto;
-import com.comviva.col.utils.dto.DeductionReportDto;
 
 /**
  * This Class maps CSV data to specified DTO objects. Singleton class.
@@ -55,45 +53,6 @@ public class CSVToEntity {
 						.setActivationDate(LocalDate.parse(x[1], DateTimeFormatter.ofPattern("dd-MM-yyyy")))
 						.setAgentCode(x[2]).setExternalId(x[3]).setMobileNumber(x[4]).setName(x[5]).setScheme(x[6])
 						.setIncentive(x[7]).setCategory(x[8]).setActiType(x[9]).build();
-			}).collect(Collectors.toList());
-			return list;
-		}
-	}
-
-	/**
-	 * Reads CSV data into DeductionReportDto object.
-	 * 
-	 * @param filename
-	 * @return
-	 * @throws IOException
-	 */
-	public List<DeductionReportDto> readCSVFileIntoDeductionReportObject(String filename) throws IOException {
-		Pattern pattern = Pattern.compile(",");
-		try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-			List<DeductionReportDto> list = in.lines().skip(1).map(line -> {
-				String[] x = pattern.split(line);
-				return new DeductionReportDto.DeductionReportBuilder().setMonth(x[0])
-						.setActivationDate(LocalDate.parse(x[1], DateTimeFormatter.ofPattern("dd-MM-yyyy")))
-						.setAgentCode(x[2]).setExternalId(x[3]).setMobileNumber(x[4]).setName(x[5]).setScheme(x[6])
-						.setAmount(x[7]).setCategory(x[8]).setActiType(x[9]).setRemarks1(x[10]).setRemarks2(x[11])
-						.build();
-			}).collect(Collectors.toList());
-			return list;
-		}
-	}
-
-	/**
-	 * 
-	 * @param filename
-	 * @return
-	 * @throws IOException
-	 */
-	public List<ChequeReportDto> readCSVFileIntoChequeReportObject(String filename) throws IOException {
-		Pattern pattern = Pattern.compile(",");
-		try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-			List<ChequeReportDto> list = in.lines().skip(1).map(line -> {
-				String[] x = pattern.split(line);
-				return new ChequeReportDto(x[0], x[1]);
 			}).collect(Collectors.toList());
 			return list;
 		}

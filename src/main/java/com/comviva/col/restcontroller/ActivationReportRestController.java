@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +43,7 @@ public class ActivationReportRestController {
 	 * @throws DuplicateException
 	 */
 	@PostMapping(value = "/activationReport")
+	@CrossOrigin
 	public ResponseEntity<?> addActivationReport(@RequestBody ActivationReport activationReport)
 			throws DuplicateException {
 		activationReportService.addActivationReport(activationReport);
@@ -57,6 +59,7 @@ public class ActivationReportRestController {
 	 * @throws IOException
 	 */
 	@PostMapping(value = "/allActivationReport")
+	@CrossOrigin
 	public ResponseEntity<?> addAllActivationReport(@RequestParam String filename)
 			throws FileNotFoundException, IOException {
 		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(filename);
@@ -74,6 +77,7 @@ public class ActivationReportRestController {
 	 * @throws NotFoundException
 	 */
 	@GetMapping(value = "/allActivationReport")
+	@CrossOrigin
 	public ResponseEntity<?> viewActivationReportFromAndToDate(@RequestParam String fromDate,
 			@RequestParam String toDate, @RequestParam String agentCode) throws NotFoundException {
 		return ResponseEntity.ok(activationReportService.viewByFromAndToDate(LocalDate.parse(fromDate),
