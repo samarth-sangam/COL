@@ -22,7 +22,6 @@ public class PasswordEncryption {
 			for (int i = 0; i < digested.length; i++) {
 				sb.append(Integer.toHexString(0xff & digested[i]));
 			}
-			System.out.println(sb.toString());
 			return sb.toString();
 		} catch (NoSuchAlgorithmException ex) {
 			System.out.println(ex.getMessage());

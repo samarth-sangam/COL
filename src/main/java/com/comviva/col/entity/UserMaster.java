@@ -4,8 +4,9 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
 /**
  * 
@@ -15,8 +16,8 @@ import javax.validation.constraints.NotNull;
 @Entity(name = "COL_USER_MASTER")
 public class UserMaster {
 
-	@NotNull
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	int userId;
 
@@ -30,16 +31,15 @@ public class UserMaster {
 	String email;
 
 	// TODO: String or int
-	@NotNull
-	@Column(name = "cell_no")
+	@Column(name = "cell_no", unique = true)
 	String mobileNumber;
 
 	// TODO: ENUM {ADMIN, SPOC, USER}
 	@Column(name = "type")
-	int type;
+	String type;
 
 	@Column(name = "parent_id")
-	int parentId;
+	Integer parentId;
 
 	@Column(name = "date")
 	LocalDate passwordChangeDate;
@@ -84,11 +84,11 @@ public class UserMaster {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

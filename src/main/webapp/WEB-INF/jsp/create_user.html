@@ -1,0 +1,93 @@
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>ChannelOnline</title>
+     <link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css" />
+     <link type="text/css" rel="stylesheet" href="../css/navcss.css">
+     <!-- <link type="text/css" rel="stylesheet" href="create_user_css.css"> -->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <script type="text/javascript" src='../materialize/js/jquery-3.2.1.min.js'></script>
+      <script type="text/javascript" src="../materialize/js/materialize.min.js"></script>
+
+  </head>
+  <body>
+    <nav>
+    <div class="nav-wrapper">
+      <img src="Images/logo.png"  align="right">
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li> <a href="first_page.html"><i class="material-icons">home</i></a></li>
+        <li><a href="create_user.html">Create User</a></li>
+        <li><a href="badges.html">Modify User</a></li>
+        <li><a href="reports.html">Reports</a></li>
+        <li><a href="change_password.html">Change Password</a></li>
+        <li><a href="badges.html">User detail</a></li>
+        <li><a href="collapsible.html">Data Deletion</a></li>
+        <li><a href="collapsible.html">File Upload</a></li>
+      </ul>
+    </div>
+   </nav>
+   <div class="col s12 " style="height:100vh">
+     <div class="row">
+   <form class="col s12 white" action="first_page.html" method="post">
+   <div class="row">
+    <div class="input-field col s12">
+      <input  id="userId" type="text" class="validate" name="userId">
+      <label for="userId">USERID</label>
+    </div>
+   </div>
+   <div class="row">
+    <div class="input-field col s6">
+      <input  id="username" type="text" class="validate" name="username">
+      <label for="userName">USER NAME</label>
+    </div>
+    <div class="input-field col s3">
+      <input id="password" type="password" class="validate" name="password">
+      <label for="password">PASSWORD</label>
+    </div>
+    <div class="input-field col s3">
+      <input id="ConfirmPassword" type="password" class="validate" name="ConfirmPassword">
+      <label for="ConfirmPassword">CONFIRM PASSWORD</label>
+    </div>
+   </div>
+    <div class="row">
+      <div class="input-field col s4">
+        <input  id="email" type="text" class="validate" name="email">
+        <label for="email">E-MAIL</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="mobileNumber" type="text" class="validate" name="mobileNumber">
+        <label for="mobileNumber">MobileNumber</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="createdBy" type="text" class="validate" name="createdBy">
+        <label for="createdBy">created By</label>
+      </div>
+   </div>
+   <div class="row">
+     <div class="input-field col s6">
+       <select class="browser-default">
+         <option value="" disabled selected>USER STATUS</option>
+         <option value="1">Option 1</option>
+         <option value="2">Option 2</option>
+         <option value="3">Option 3</option>
+       </select>
+     </div>
+     <div class="input-field col s6">
+       <select class="browser-default">
+         <option value="" disabled selected>CIRCLE</option>
+         <option value="1">Option 1</option>
+         <option value="2">Option 2</option>
+         <option value="3">Option 3</option>
+       </select>
+     </div>
+
+   </div>
+         <div style="text-align:center;"><input type="submit" name="" value="submit"></div>
+   </form>
+   </div>
+   </div>
+
+
+  </body>
+  </html>

@@ -1,0 +1,110 @@
+body{
+  margin: 0;
+  padding: 0;
+  background: url(Images/img.jpg);
+  background-size: cover;
+  font-family: Trebuchet MS;
+
+}
+.title{
+  text-align: center;
+  padding: 50px 30px 20px;
+  width: 50%;
+  margin:auto;
+}
+.title h1 {
+  margin: 0;
+  padding: 0px;
+  color: black;
+  text-transform: uppercase;
+  font-size: 36px;
+  background: white;
+  opacity: 0.5;
+}
+.container
+{
+  margin-top: 20px;
+  width: 50%;
+  border: 1px solid #fff;
+  height: 400px;
+  background: white;
+  margin: 0 auto;
+  box-shadow: 0 20px 30px rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+}
+
+
+.formBox {
+  width: 100%;
+
+  padding: 40px 40px;
+  box-sizing: border-box;
+  height: 400px;
+
+}
+.formBox p {
+  margin: 10px 0;
+  padding: 0 5px;
+  font-weight: bold;
+  color: black;
+}
+.formBox input {
+  margin-bottom: 20px;
+
+  width: 100%;
+  font-size: 20px;
+}
+.formBox input[type="password"] {
+  margin-bottom: 50px;
+}
+
+.formBox input[type="text"],
+.formBox input[type="password"] {
+  border: none;
+  border-bottom: 2px solid black;
+  outline: none;
+  height: 40px;
+  box-shadow: 0 1px 15px rgba(255, 255, 255, 0.5);
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+.formBox input[type="text"]:focus,
+.formBox input[type="password"]:focus {
+  box-shadow: 0 5px 40px rgba(255, 255, 255, 0.5);
+
+}
+.formBox input[type="submit"] {
+  border: none;
+  outline: none;
+  height: 40px;
+  color: #fff;
+  background: darkgray;
+  cursor: pointer;
+  opacity: 0.9;
+}
+.formBox input[type="submit"]:hover {
+  background: #fff;
+  color: black;
+  box-shadow: 0 5px 40px rgba(255, 255, 255, 0.5);
+  font-size: bold;
+}
+
+.left ul {
+ list-style-type: none;
+ color: red;
+
+
+}
+ul:not(.browser-default) {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+
+.left {
+margin-top: 100px;
+margin-left: 250px;
+
+
+}

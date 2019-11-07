@@ -14,7 +14,7 @@ public interface IUserMasterDao {
 
 	void addAllUserMaster(List<UserMaster> list);
 
-	void addUserMaster(UserMaster userMaster) throws Exception;
+	UserMaster addUserMaster(UserMaster userMaster) throws Exception;
 
 	UserMaster viewUserMaster(int id);
 

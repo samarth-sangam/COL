@@ -44,11 +44,11 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	}
 
 	@Override
-	public void addUserMaster(UserMaster userMaster) throws Exception {
+	public UserMaster addUserMaster(UserMaster userMaster) throws Exception {
 		if (exists(userMaster.getUserId())) {
-			throw new Exception("User Master with " + userMaster.getUserId() + " exists.");
+			throw new Exception("User Master with id " + userMaster.getUserId() + " exists.");
 		}
-		userMasterRepository.save(userMaster);
+		return userMasterRepository.save(userMaster);
 
 	}
 

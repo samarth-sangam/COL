@@ -21,7 +21,7 @@ public interface IUserMasterService {
 	 * @return
 	 * @throws DuplicateException
 	 */
-	String addUserMaster(UserMaster userMaster) throws DuplicateException;
+	UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException;
 
 	/**
 	 * All List of UserMaster entities.
@@ -38,7 +38,7 @@ public interface IUserMasterService {
 	 * @return
 	 * @throws Exception
 	 */
-	UserMaster viewUserMaster(int id) throws Exception;
+	UserMaster viewUserMaster(int id);
 
 	/**
 	 * View All UserMaster by Type.

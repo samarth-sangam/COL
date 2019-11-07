@@ -27,14 +27,13 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	private IUserMasterDao userMasterDao;
 
 	@Override
-	public String addUserMaster(UserMaster userMaster) throws DuplicateException {
+	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
 		userMaster.setPassword(PasswordEncryption.encrypt(userMaster.getPassword()));
 		try {
-			userMasterDao.addUserMaster(userMaster);
+			return userMasterDao.addUserMaster(userMaster);
 		} catch (Exception e) {
 			throw new DuplicateException(e);
 		}
-		return "Added";
 	}
 
 	@Override
@@ -44,14 +43,13 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	}
 
 	@Override
-	public UserMaster viewUserMaster(int id) throws Exception {
+	public UserMaster viewUserMaster(int id) {
 		UserMaster userMaster = userMasterDao.viewUserMaster(id);
-		if (userMaster == null) {
-			throw new NotFoundException("User Master with " + id + " not found.");
-		}
-		if (userMaster.getPasswordChangeDate() == null) {
-			throw new Exception("Password Not Set");
-		}
+		/*
+		 * if (userMaster == null) { throw new NotFoundException("User Master with " +
+		 * id + " not found."); } if (userMaster.getPasswordChangeDate() == null) {
+		 * throw new Exception("Password Not Set"); }
+		 */
 		return userMaster;
 	}
 
