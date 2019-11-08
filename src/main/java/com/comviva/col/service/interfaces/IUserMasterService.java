@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.comviva.col.entity.UserMaster;
 import com.comviva.col.exceptions.DuplicateException;
+import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
 
 /**
@@ -36,9 +37,9 @@ public interface IUserMasterService {
 	 * 
 	 * @param id
 	 * @return
-	 * @throws Exception
+	 * @throws NotFoundException
 	 */
-	UserMaster viewUserMaster(int id);
+	UserMaster viewUserMaster(int id) throws NotFoundException, InvalidPasswordException;
 
 	/**
 	 * View All UserMaster by Type.
@@ -47,7 +48,7 @@ public interface IUserMasterService {
 	 * @return
 	 * @throws NotFoundException
 	 */
-	List<UserMaster> viewAllByTypeUserMaster(int type) throws NotFoundException;
+	List<UserMaster> viewAllByTypeUserMaster(String type) throws NotFoundException;
 
 	/**
 	 * Updates UserMaster if userMaster with userId exists else throws exceptions.
@@ -66,7 +67,7 @@ public interface IUserMasterService {
 	 * @return
 	 * @throws Exception
 	 */
-	UserMaster loginUsingUserId(int userId, String password) throws Exception;
+	UserMaster loginUsingUserId(int userId, String password) throws NotFoundException, InvalidPasswordException;
 
 	/**
 	 * Login by mobile number and password.
@@ -76,7 +77,8 @@ public interface IUserMasterService {
 	 * @return
 	 * @throws Exception
 	 */
-	UserMaster loginUsingMobileNumber(String mobileNumber, String password) throws Exception;
+	UserMaster loginUsingMobileNumber(String mobileNumber, String password)
+			throws NotFoundException, InvalidPasswordException;
 
 	/**
 	 * Reset Password.
@@ -86,7 +88,7 @@ public interface IUserMasterService {
 	 * @return
 	 * @throws Exception
 	 */
-	UserMaster resetPassword(int id, String password) throws Exception;
+	UserMaster resetPassword(int id, String password) throws NotFoundException, InvalidPasswordException;
 
 	/**
 	 * View List of UserMaster by parentId.

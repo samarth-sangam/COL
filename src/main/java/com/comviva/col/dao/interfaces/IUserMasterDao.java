@@ -12,13 +12,13 @@ import com.comviva.col.entity.UserMaster;
  */
 public interface IUserMasterDao {
 
-	void addAllUserMaster(List<UserMaster> list);
+	List<UserMaster> addAllUserMaster(List<UserMaster> list);
 
 	UserMaster addUserMaster(UserMaster userMaster) throws Exception;
 
 	UserMaster viewUserMaster(int id);
 
-	List<UserMaster> viewAllByType(int type);
+	List<UserMaster> viewAllByType(String type);
 
 	UserMaster updateUserMaster(UserMaster userMaster) throws Exception;
 

@@ -26,11 +26,11 @@ public class ActivationReportDaoImpl extends AbstractDaoImpl<ActivationReport> i
 	private static final String TABLE_NAME = "COL_ACTIVATION_REPORT";
 
 	@Override
-	public void addActivationReport(ActivationReport activationReport) throws Exception {
+	public ActivationReport addActivationReport(ActivationReport activationReport) throws Exception {
 		if (exists(activationReport.getTrId())) {
 			throw new Exception("Transaction with " + activationReport.getTrId() + " exists.");
 		}
-		activationReportRepository.save(activationReport);
+		return activationReportRepository.save(activationReport);
 
 	}
 
@@ -44,10 +44,9 @@ public class ActivationReportDaoImpl extends AbstractDaoImpl<ActivationReport> i
 	}
 
 	@Override
-	public void updateActivationReport(ActivationReport activationReport) throws Exception {
+	public ActivationReport updateActivationReport(ActivationReport activationReport) throws Exception {
 		if (exists(activationReport.getTrId())) {
-			activationReportRepository.save(activationReport);
-			return;
+			return activationReportRepository.save(activationReport);
 		}
 		throw new Exception("Activation Report Doesnot exists!");
 	}
@@ -66,8 +65,8 @@ public class ActivationReportDaoImpl extends AbstractDaoImpl<ActivationReport> i
 	}
 
 	@Override
-	public void addAllActivationReport(List<ActivationReport> list) {
-		activationReportRepository.saveAll(list);
+	public List<ActivationReport> addAllActivationReport(List<ActivationReport> list) {
+		return activationReportRepository.saveAll(list);
 
 	}
 

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.comviva.col.entity.UserMaster;
 import com.comviva.col.exceptions.DuplicateException;
+import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.service.interfaces.IUserMasterService;
+import com.comviva.col.utils.dto.UserMasterDto;
+import com.comviva.col.utils.mapper.UserMasterMapper;
 
 /**
  * REST apis from UserMaster.
@@ -32,6 +34,9 @@ public class UserMasterRestController {
 	@Autowired
 	private IUserMasterService userMasterService;
 
+	@Autowired
+	private UserMasterMapper mapper;
+
 	/**
 	 * REST api to add UserMaster.
 	 * 
@@ -42,8 +47,8 @@ public class UserMasterRestController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@CrossOrigin
 	@PostMapping(value = "/userMaster", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addUserMaster(@RequestBody UserMaster userMaster) throws DuplicateException {
-		return ResponseEntity.ok(userMasterService.addUserMaster(userMaster));
+	public ResponseEntity<?> addUserMaster(@RequestBody UserMasterDto userMaster) throws DuplicateException {
+		return ResponseEntity.ok(userMasterService.addUserMaster(mapper.toEntity(userMaster)));
 	}
 
 	/**
@@ -52,12 +57,14 @@ public class UserMasterRestController {
 	 * @param id
 	 * @param model
 	 * @return
+	 * @throws InvalidPasswordException
+	 * @throws NotFoundException
 	 * @throws Exception
 	 */
 	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@CrossOrigin
 	@GetMapping(value = "/userMaster/{id}")
-	public ResponseEntity<?> getUserMaster(@PathVariable int id) {
+	public ResponseEntity<?> getUserMaster(@PathVariable int id) throws NotFoundException, InvalidPasswordException {
 		return ResponseEntity.ok(userMasterService.viewUserMaster(id));
 	}
 
@@ -71,7 +78,7 @@ public class UserMasterRestController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@CrossOrigin
 	@GetMapping(value = "userMaster/type/{type}")
-	public ResponseEntity<?> getListUserMasterByType(@PathVariable int type) throws NotFoundException {
+	public ResponseEntity<?> getListUserMasterByType(@PathVariable String type) throws NotFoundException {
 		return ResponseEntity.ok(userMasterService.viewAllByTypeUserMaster(type));
 	}
 
@@ -83,9 +90,10 @@ public class UserMasterRestController {
 	 * @throws Exception
 	 */
 	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
-	@PutMapping(value = "/userMaster")
-	public ResponseEntity<?> updateUserMaster(@RequestBody UserMaster userMaster) throws NotFoundException {
-		return ResponseEntity.ok(userMasterService.updateUserMaster(userMaster));
+	@PutMapping(value = "/userMaster/{id}")
+	public ResponseEntity<?> updateUserMaster(@RequestBody UserMasterDto userMasterDto, @PathVariable int id)
+			throws NotFoundException {
+		return ResponseEntity.ok(userMasterService.updateUserMaster(mapper.toEntity(userMasterDto, id)));
 	}
 
 	/**

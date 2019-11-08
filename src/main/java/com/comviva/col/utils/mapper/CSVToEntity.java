@@ -43,18 +43,16 @@ public class CSVToEntity {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public List<ActivationReportDto> readCSVFileIntoActivationReportObject(String filename)
-			throws FileNotFoundException, IOException {
+	public List<ActivationReportDto> readCSVFileIntoActivationReportObject(String filename) throws IOException {
 		Pattern pattern = Pattern.compile(",");
 		try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-			List<ActivationReportDto> list = in.lines().skip(1).map(line -> {
+			return in.lines().skip(1).map(line -> {
 				String[] x = pattern.split(line);
 				return new ActivationReportDto.ActivationReportBuilder().setMonth(x[0])
 						.setActivationDate(LocalDate.parse(x[1], DateTimeFormatter.ofPattern("dd-MM-yyyy")))
 						.setAgentCode(x[2]).setExternalId(x[3]).setMobileNumber(x[4]).setName(x[5]).setScheme(x[6])
 						.setIncentive(x[7]).setCategory(x[8]).setActiType(x[9]).build();
 			}).collect(Collectors.toList());
-			return list;
 		}
 	}
 

@@ -38,8 +38,8 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	private EntityManager entityManager;
 
 	@Override
-	public void addAllUserMaster(List<UserMaster> list) {
-		userMasterRepository.saveAll(list);
+	public List<UserMaster> addAllUserMaster(List<UserMaster> list) {
+		return userMasterRepository.saveAll(list);
 
 	}
 
@@ -83,7 +83,7 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	}
 
 	@Override
-	public List<UserMaster> viewAllByType(int type) {
+	public List<UserMaster> viewAllByType(String type) {
 		Query query = entityManager.createQuery(String.format(VIEW_BY_TYPE, TABLE_NAME));
 		query.setParameter("type", type);
 		return query.getResultList();

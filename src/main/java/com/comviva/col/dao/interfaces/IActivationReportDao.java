@@ -17,14 +17,15 @@ public interface IActivationReportDao {
 	 * Adds Activation Report to the database.
 	 * 
 	 * @param list
+	 * @return
 	 */
-	void addAllActivationReport(List<ActivationReport> list);
+	List<ActivationReport> addAllActivationReport(List<ActivationReport> list);
 
-	void addActivationReport(ActivationReport activationReport) throws Exception;
+	ActivationReport addActivationReport(ActivationReport activationReport) throws Exception;
 
 	ActivationReport viewActivationReport(int id);
 
-	void updateActivationReport(ActivationReport activationReport) throws Exception;
+	ActivationReport updateActivationReport(ActivationReport activationReport) throws Exception;
 
 	boolean deleteActivationReport(int id);
 

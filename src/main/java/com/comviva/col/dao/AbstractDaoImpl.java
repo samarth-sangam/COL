@@ -28,7 +28,7 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 
 	private static final String MONTH_QUERY = "from %s where agent_code = :agentCode AND month = :month";
 
-	private static final String DELETE_BY_MONTH = "delete %s where month = :month";
+	private static final String DELETE_BY_MONTH = "delete %s where month = :month AND agent_code = :agentCode";
 
 	/**
 	 * 
@@ -53,6 +53,7 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 	public void deleteByMonth(String month, String id, String tableName) {
 		Query query = entityManager.createQuery(String.format(DELETE_BY_MONTH, tableName));
 		query.setParameter("month", month);
+		query.setParameter("agentCode", id);
 		query.executeUpdate();
 	}
 }

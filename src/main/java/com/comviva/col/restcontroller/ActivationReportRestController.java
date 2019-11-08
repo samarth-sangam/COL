@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.comviva.col.entity.ActivationReport;
 import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.service.interfaces.IActivationReportService;
 import com.comviva.col.utils.dto.ActivationReportDto;
+import com.comviva.col.utils.mapper.ActivationReportMapper;
 import com.comviva.col.utils.mapper.CSVToEntity;
 
 /**
@@ -35,19 +35,21 @@ public class ActivationReportRestController {
 	@Autowired
 	private IActivationReportService activationReportService;
 
+	@Autowired
+	private ActivationReportMapper mapper;
+
 	/**
 	 * REST api to add ActivationReport.
 	 * 
-	 * @param activationReport
+	 * @param activationReportdto
 	 * @return
 	 * @throws DuplicateException
 	 */
 	@PostMapping(value = "/activationReport")
 	@CrossOrigin
-	public ResponseEntity<?> addActivationReport(@RequestBody ActivationReport activationReport)
+	public ResponseEntity<?> addActivationReport(@RequestBody ActivationReportDto activationReportdto)
 			throws DuplicateException {
-		activationReportService.addActivationReport(activationReport);
-		return ResponseEntity.ok("Added");
+		return ResponseEntity.ok(activationReportService.addActivationReport(mapper.toEntity(activationReportdto)));
 	}
 
 	/**
@@ -60,8 +62,7 @@ public class ActivationReportRestController {
 	 */
 	@PostMapping(value = "/allActivationReport")
 	@CrossOrigin
-	public ResponseEntity<?> addAllActivationReport(@RequestParam String filename)
-			throws FileNotFoundException, IOException {
+	public ResponseEntity<?> addAllActivationReport(@RequestParam String filename) throws IOException {
 		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(filename);
 		activationReportService.addAllActivationReport(list);
 		return ResponseEntity.ok("All Added");

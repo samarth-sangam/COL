@@ -43,18 +43,21 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	}
 
 	@Override
-	public UserMaster viewUserMaster(int id) {
+	public UserMaster viewUserMaster(int id) throws NotFoundException, InvalidPasswordException {
 		UserMaster userMaster = userMasterDao.viewUserMaster(id);
-		/*
-		 * if (userMaster == null) { throw new NotFoundException("User Master with " +
-		 * id + " not found."); } if (userMaster.getPasswordChangeDate() == null) {
-		 * throw new Exception("Password Not Set"); }
-		 */
+
+		if (userMaster == null) {
+			throw new NotFoundException("User Master with " + id + " not found.");
+		}
+		if (userMaster.getPasswordChangeDate() == null) {
+			throw new InvalidPasswordException("Password Not Set");
+		}
 		return userMaster;
+
 	}
 
 	@Override
-	public List<UserMaster> viewAllByTypeUserMaster(int type) throws NotFoundException {
+	public List<UserMaster> viewAllByTypeUserMaster(String type) throws NotFoundException {
 		List<UserMaster> list = userMasterDao.viewAllByType(type);
 		if (list == null) {
 			throw new NotFoundException("No Entries in the UserMaster table");
@@ -72,7 +75,7 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	}
 
 	@Override
-	public UserMaster loginUsingUserId(int id, String password) throws Exception {
+	public UserMaster loginUsingUserId(int id, String password) throws NotFoundException, InvalidPasswordException {
 		UserMaster userMaster = userMasterDao.viewUserMaster(id);
 		if (userMaster == null) {
 			throw new NotFoundException("Check the UserId.");
@@ -84,14 +87,15 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	}
 
 	@Override
-	public UserMaster resetPassword(int id, String password) throws Exception {
+	public UserMaster resetPassword(int id, String password) throws NotFoundException, InvalidPasswordException {
 		UserMaster userMaster = this.viewUserMaster(id);
 		userMaster.setPasswordChangeDate(LocalDate.now());
 		return userMasterDao.updateWithoutCheckingForUserMaster(userMaster);
 	}
 
 	@Override
-	public UserMaster loginUsingMobileNumber(String mobileNumber, String password) throws Exception {
+	public UserMaster loginUsingMobileNumber(String mobileNumber, String password)
+			throws NotFoundException, InvalidPasswordException {
 		UserMaster userMaster = userMasterDao.getByMobileNumber(mobileNumber);
 		if (userMaster == null) {
 			throw new NotFoundException("Check Mobile Number");

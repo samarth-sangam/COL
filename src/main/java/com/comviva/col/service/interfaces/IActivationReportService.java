@@ -24,7 +24,7 @@ public interface IActivationReportService {
 	 * @return
 	 * @throws DuplicateException
 	 */
-	String addActivationReport(ActivationReport activationReport) throws DuplicateException;
+	ActivationReport addActivationReport(ActivationReport activationReport) throws DuplicateException;
 
 	/**
 	 * Adds list of ActivationReport by converting Dto to entity.
@@ -32,9 +32,9 @@ public interface IActivationReportService {
 	 * @param list
 	 * @return
 	 */
-	String addAllActivationReport(List<ActivationReportDto> list);
+	List<ActivationReport> addAllActivationReport(List<ActivationReportDto> list);
 
-	String deleteActivationReport(int id);
+	String deleteActivationReport(int id) throws NotFoundException;
 
 	/**
 	 * View ActivationReport by Transaction Id if exists else throws

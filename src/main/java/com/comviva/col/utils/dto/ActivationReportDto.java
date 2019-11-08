@@ -30,6 +30,8 @@ public class ActivationReportDto {
 
 	private String actiType;
 
+	private char status;
+
 	private ActivationReportDto(ActivationReportBuilder builder) {
 		this.month = builder.month;
 		this.actiType = builder.actiType;
@@ -43,7 +45,6 @@ public class ActivationReportDto {
 	}
 
 	public ActivationReportDto() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getMonth() {
@@ -124,6 +125,14 @@ public class ActivationReportDto {
 
 	public void setActiType(String actiType) {
 		this.actiType = actiType;
+	}
+
+	public char getStatus() {
+		return status;
+	}
+
+	public void setStatus(char status) {
+		this.status = status;
 	}
 
 	public static class ActivationReportBuilder {

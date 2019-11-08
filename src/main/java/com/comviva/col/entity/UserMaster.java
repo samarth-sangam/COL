@@ -30,11 +30,9 @@ public class UserMaster {
 	@Column(name = "e_mail")
 	String email;
 
-	// TODO: String or int
 	@Column(name = "cell_no", unique = true)
 	String mobileNumber;
 
-	// TODO: ENUM {ADMIN, SPOC, USER}
 	@Column(name = "type")
 	String type;
 
@@ -92,11 +90,11 @@ public class UserMaster {
 		this.type = type;
 	}
 
-	public int getParentId() {
+	public Integer getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(int parentId) {
+	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
 

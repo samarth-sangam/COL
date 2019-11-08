@@ -30,19 +30,19 @@ public class ActivationReportServiceImpl implements IActivationReportService {
 	private IActivationReportDao activationReportDao;
 
 	@Override
-	public String addActivationReport(ActivationReport activationReport) throws DuplicateException {
+	public ActivationReport addActivationReport(ActivationReport activationReport) throws DuplicateException {
 		try {
-			activationReportDao.addActivationReport(activationReport);
+			return activationReportDao.addActivationReport(activationReport);
 		} catch (Exception e) {
 			throw new DuplicateException(e);
 		}
-		return "Activation Report Added";
 	}
 
 	@Override
-	public String deleteActivationReport(int id) {
-		activationReportDao.deleteActivationReport(id);
-		return "ACtivation Report Deleted";
+	public String deleteActivationReport(int id) throws NotFoundException {
+		if (activationReportDao.deleteActivationReport(id))
+			return "ACtivation Report Deleted";
+		throw new NotFoundException("ActivationReport with id " + id + " does not exists.");
 	}
 
 	@Override
@@ -65,13 +65,12 @@ public class ActivationReportServiceImpl implements IActivationReportService {
 	}
 
 	@Override
-	public String addAllActivationReport(List<ActivationReportDto> list) {
+	public List<ActivationReport> addAllActivationReport(List<ActivationReportDto> list) {
 		List<ActivationReport> activationReportList = new ArrayList<>();
 		for (ActivationReportDto obj : list) {
 			activationReportList.add(mapper.toEntity(obj));
 		}
-		activationReportDao.addAllActivationReport(activationReportList);
-		return "All Activation Report Added";
+		return activationReportDao.addAllActivationReport(activationReportList);
 	}
 
 	@Override
