@@ -42,6 +42,7 @@ public class ActivationReportDto {
 		this.incentive = builder.incentive;
 		this.mobileNumber = builder.mobileNumber;
 		this.name = builder.name;
+		this.status = builder.status;
 	}
 
 	public ActivationReportDto() {
@@ -157,6 +158,8 @@ public class ActivationReportDto {
 
 		String actiType;
 
+		char status;
+
 		public ActivationReportBuilder setMonth(String month) {
 			this.month = month;
 			return this;
@@ -207,10 +210,23 @@ public class ActivationReportDto {
 			return this;
 		}
 
+		public ActivationReportBuilder setStatus(char status) {
+			this.status = status;
+			return this;
+		}
+
 		public ActivationReportDto build() {
 			return new ActivationReportDto(this);
 		}
 
+	}
+
+	@Override
+	public String toString() {
+		return "ActivationReportDto [month=" + month + ", activationDate=" + activationDate + ", agentCode=" + agentCode
+				+ ", externalId=" + externalId + ", mobileNumber=" + mobileNumber + ", name=" + name + ", scheme="
+				+ scheme + ", incentive=" + incentive + ", category=" + category + ", actiType=" + actiType
+				+ ", status=" + status + "]";
 	}
 
 }

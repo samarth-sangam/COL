@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
+import com.comviva.col.service.FileStorageService;
 import com.comviva.col.service.interfaces.IActivationReportService;
 import com.comviva.col.utils.dto.ActivationReportDto;
 import com.comviva.col.utils.mapper.ActivationReportMapper;
@@ -41,6 +43,9 @@ public class ActivationReportRestController {
 	private ActivationReportMapper mapper;
 	
 	private Logger log = Logger.getLogger(ActivationReportRestController.class);
+
+	@Autowired
+	private FileStorageService fileStorageService;
 
 	/**
 	 * REST api to add ActivationReport.
@@ -69,14 +74,16 @@ public class ActivationReportRestController {
 	@PreAuthorize("hasAnyRole('CIRCLE', 'ADMIN')")
 	@PostMapping(value = "/allActivationReport")
 	@CrossOrigin
-	public ResponseEntity<?> addAllActivationReport(@RequestParam String filename) throws IOException {
+	public ResponseEntity<?> addAllActivationReport(@RequestParam("file") MultipartFile file) throws IOException {
 		log.info("Url pattern /api/v1/activationReport/allActivationReport invoked for adding report in bulk.");
-		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(filename);
+		String fileName = fileStorageService.storeFile(file);
+		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(fileName);
 		if(list == null)
 			log.error("Failed to convert csv to list. List object is identified as null.");
 		activationReportService.addAllActivationReport(list);
 		log.info("All reports are added by csv.");
 		return ResponseEntity.ok("All Added");
+
 	}
 
 	/**

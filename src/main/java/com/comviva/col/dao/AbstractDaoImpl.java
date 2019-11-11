@@ -22,6 +22,14 @@ import com.comviva.col.dao.interfaces.IBaseDao;
  */
 public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 
+	private static final String MONTH = "month";
+
+	private static final String TO_DATE = "toDate";
+
+	private static final String FROM_DATE = "fromDate";
+
+	private static final String AGENT_CODE = "agentCode";
+
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -41,11 +49,17 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 	public List<T> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String agentCode, String tableName) {
 		log.info("Values={fromDate:"+fromDate+", toDate:"+toDate+", agentCode:"+agentCode+", tableName:"+tableName);
 		Query query = entityManager.createQuery(String.format(FROM_TO_DATE_QUERY, tableName));
+
 		if(query == null)
 			log.error("Query object is identified as null.");
-		query.setParameter("agent_code", agentCode);
+		query.setParameter("agentCode", agentCode);
 		query.setParameter("fromDate", Date.valueOf(fromDate));
 		query.setParameter("toDate", Date.valueOf(toDate));
+
+		query.setParameter(AGENT_CODE, agentCode);
+		query.setParameter(FROM_DATE, Date.valueOf(fromDate));
+		query.setParameter(TO_DATE, Date.valueOf(toDate));
+
 		return query.getResultList();
 	}
 
@@ -57,6 +71,8 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 			log.error("Query object is identified as null.");
 		query.setParameter("agentCode", agentCode);
 		query.setParameter("month", month);
+		query.setParameter(AGENT_CODE, agentCode);
+		query.setParameter(MONTH, month);
 		return query.getResultList();
 	}
 
@@ -67,6 +83,8 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 			log.error("Query object is identified as null.");
 		query.setParameter("month", month);
 		query.setParameter("agentCode", id);
+		query.setParameter(MONTH, month);
+		query.setParameter(AGENT_CODE, id);
 		query.executeUpdate();
 	}
 }
