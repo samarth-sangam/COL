@@ -10,8 +10,8 @@ import javax.persistence.Id;
 
 /**
  * 
- * @author samarth.sangam
- *
+ * @author samarth.sangam, mahendra.prajapati
+ * 
  */
 @Entity(name = "COL_USER_MASTER")
 public class UserMaster {
@@ -104,6 +104,13 @@ public class UserMaster {
 
 	public void setPasswordChangeDate(LocalDate passwordChangeDate) {
 		this.passwordChangeDate = passwordChangeDate;
+	}
+
+	@Override
+	public String toString() {
+		return "UserMaster [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", mobileNumber=" + mobileNumber + ", type=" + type + ", parentId=" + parentId
+				+ ", passwordChangeDate=" + passwordChangeDate + "]";
 	}
 
 }

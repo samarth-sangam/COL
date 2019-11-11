@@ -10,7 +10,7 @@ import com.comviva.col.exceptions.NotFoundException;
 /**
  * Interface for UserMaster Service.
  * 
- * @author samarth.sangam
+ * @author samarth.sangam, mahendra.prajapati
  *
  */
 public interface IUserMasterService {

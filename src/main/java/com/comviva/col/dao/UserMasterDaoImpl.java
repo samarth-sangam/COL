@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,14 +18,11 @@ import com.comviva.col.repository.UserMasterRepository;
 /**
  * UserMaster Dao implementation.
  * 
- * @author samarth.sangam
+ * @author samarth.sangam, mahendra.prajapati
  *
  */
 @Component
 public class UserMasterDaoImpl implements IUserMasterDao {
-
-	@Autowired
-	private UserMasterRepository userMasterRepository;
 
 	private static final String VIEW_BY_TYPE = "from %s where type = :type";
 
@@ -34,11 +32,17 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 
 	private static final String TABLE_NAME = "COL_USER_MASTER";
 
+	@Autowired
+	private UserMasterRepository userMasterRepository;
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	private Logger log = Logger.getLogger(UserMasterDaoImpl.class);
+
 	@Override
 	public List<UserMaster> addAllUserMaster(List<UserMaster> list) {
+		log.info("Adding users in bulk");
 		return userMasterRepository.saveAll(list);
 
 	}
@@ -46,8 +50,10 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws Exception {
 		if (exists(userMaster.getUserId())) {
+			log.error(userMaster + "already exists.");
 			throw new Exception("User Master with id " + userMaster.getUserId() + " exists.");
 		}
+		log.info("User found with id " + userMaster.getUserId());
 		return userMasterRepository.save(userMaster);
 
 	}
@@ -56,16 +62,20 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	public UserMaster viewUserMaster(int id) {
 		Optional<UserMaster> userMaster = userMasterRepository.findById(id);
 		if (userMaster.isPresent()) {
+			log.info("User found with id = " + id);
 			return userMaster.get();
 		}
+		log.error("User not found with id = " + id);
 		return null;
 	}
 
 	@Override
 	public UserMaster updateUserMaster(UserMaster userMaster) throws Exception {
 		if (exists(userMaster.getUserId())) {
+			log.info("Updating the user record for id = " + userMaster.getUserId());
 			return userMasterRepository.save(userMaster);
 		}
+		log.error("User not found with id = " + userMaster.getUserId());
 		throw new Exception("UserMaster not Found");
 	}
 
@@ -77,21 +87,29 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	public boolean deleteUserMaster(int id) {
 		if (exists(id)) {
 			userMasterRepository.deleteById(id);
+			log.info("User deleted with id = " + id);
 			return true;
 		}
+		log.error("User not found with id = " + id);
 		return false;
 	}
 
 	@Override
 	public List<UserMaster> viewAllByType(String type) {
+		log.info("Query fired for view all by type{" + type + "} on table = " + TABLE_NAME);
 		Query query = entityManager.createQuery(String.format(VIEW_BY_TYPE, TABLE_NAME));
+		if(query == null)
+			log.error("Query object is identified as null.");
 		query.setParameter("type", type);
 		return query.getResultList();
 	}
 
 	@Override
 	public UserMaster getByMobileNumber(String mobileNumber) {
+		log.info("Query fired for get by mobile number{" + mobileNumber + "} on table = " + TABLE_NAME);
 		Query query = entityManager.createQuery(String.format(VIEW_BY_MOBILE_NUMBER, TABLE_NAME));
+		if(query == null)
+			log.error("Query object is identified as null.");
 		query.setParameter("cellNo", mobileNumber);
 		return (UserMaster) query.getSingleResult();
 	}
@@ -103,7 +121,10 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 
 	@Override
 	public List<UserMaster> viewAllByByParentId(int parentId) {
+		log.info("Query fired for view by parentId{"+parentId+"} on table = " + TABLE_NAME);
 		Query query = entityManager.createQuery(String.format(VIEW_BY_PARENT_ID, TABLE_NAME));
+		if(query == null)
+			log.error("Query object is identified as null");
 		query.setParameter("parentId", parentId);
 		return query.getResultList();
 	}

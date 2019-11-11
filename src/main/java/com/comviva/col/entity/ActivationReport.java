@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 /**
  * 
- * @author samarth.sangam
+ * @author samarth.sangam, mahendra.prajapati
  *
  */
 @Entity(name = "COL_ACTIVATION_REPORT")
@@ -159,6 +159,14 @@ public class ActivationReport {
 
 	public void setStatus(char status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "ActivationReport [trId=" + trId + ", month=" + month + ", activationDate=" + activationDate
+				+ ", agentCode=" + agentCode + ", externalId=" + externalId + ", mobileNumber=" + mobileNumber
+				+ ", name=" + name + ", scheme=" + scheme + ", amount=" + amount + ", incentive=" + incentive
+				+ ", category=" + category + ", actiType=" + actiType + ", status=" + status + "]";
 	}
 
 }

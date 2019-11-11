@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +27,7 @@ import com.comviva.col.utils.mapper.CSVToEntity;
 /**
  * REST apis for ActivationReport.
  * 
- * @author samarth.sangam
+ * @author samarth.sangam, mahendra.prajapati
  * @since 28-October-2019
  */
 @RestController
@@ -38,6 +39,8 @@ public class ActivationReportRestController {
 
 	@Autowired
 	private ActivationReportMapper mapper;
+	
+	private Logger log = Logger.getLogger(ActivationReportRestController.class);
 
 	/**
 	 * REST api to add ActivationReport.
@@ -51,6 +54,7 @@ public class ActivationReportRestController {
 	@CrossOrigin
 	public ResponseEntity<?> addActivationReport(@RequestBody ActivationReportDto activationReportdto)
 			throws DuplicateException {
+		log.info("Url pattern /api/v1/activationReport/activationReport invoked for adding single report.");
 		return ResponseEntity.ok(activationReportService.addActivationReport(mapper.toEntity(activationReportdto)));
 	}
 
@@ -66,8 +70,12 @@ public class ActivationReportRestController {
 	@PostMapping(value = "/allActivationReport")
 	@CrossOrigin
 	public ResponseEntity<?> addAllActivationReport(@RequestParam String filename) throws IOException {
+		log.info("Url pattern /api/v1/activationReport/allActivationReport invoked for adding report in bulk.");
 		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(filename);
+		if(list == null)
+			log.error("Failed to convert csv to list. List object is identified as null.");
 		activationReportService.addAllActivationReport(list);
+		log.info("All reports are added by csv.");
 		return ResponseEntity.ok("All Added");
 	}
 
@@ -85,6 +93,7 @@ public class ActivationReportRestController {
 	@CrossOrigin
 	public ResponseEntity<?> viewActivationReportFromAndToDate(@RequestParam String fromDate,
 			@RequestParam String toDate, @RequestParam String agentCode) throws NotFoundException {
+		log.info("Url pattern /api/v1/activationReport/allActivationReport invoked for seaching the activation report from("+fromDate+"), toDate("+toDate+") agentCode("+agentCode+")");
 		return ResponseEntity.ok(activationReportService.viewByFromAndToDate(LocalDate.parse(fromDate),
 				LocalDate.parse(toDate), agentCode));
 	}

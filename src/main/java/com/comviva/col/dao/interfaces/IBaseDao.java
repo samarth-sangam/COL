@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Base Interface for Dao.
  * 
- * @author samarth.sangam
+ * @author samarth.sangam, mahendra.prajapati
  *
  * @param <T>
  */

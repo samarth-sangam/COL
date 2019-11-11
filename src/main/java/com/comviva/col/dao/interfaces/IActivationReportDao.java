@@ -8,7 +8,7 @@ import com.comviva.col.entity.ActivationReport;
 /**
  * Interface for Activation Report DAO.
  * 
- * @author samarth.sangam
+ * @author samarth.sangam, mahendra.prajapti
  *
  */
 public interface IActivationReportDao {

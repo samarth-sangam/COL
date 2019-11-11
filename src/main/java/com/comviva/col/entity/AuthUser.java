@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author mahendra.prajapati
+ * @since 28-October-2019
+ */
+
 @Entity
 @Table(name = "jwt_auth_user")
 public class AuthUser {
@@ -46,6 +51,11 @@ public class AuthUser {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "AuthUser [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
 	}
 
 }

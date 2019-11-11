@@ -7,7 +7,7 @@ import com.comviva.col.entity.UserMaster;
 /**
  * Interface for UserMaster Dao.
  * 
- * @author samarth.sangam
+ * @author samarth.sangam, mahendra.prajapati
  *
  */
 public interface IUserMasterDao {

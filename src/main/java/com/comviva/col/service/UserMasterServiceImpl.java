@@ -3,6 +3,7 @@ package com.comviva.col.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +26,17 @@ public class UserMasterServiceImpl implements IUserMasterService {
 
 	@Autowired
 	private IUserMasterDao userMasterDao;
+	
+	private Logger log = Logger.getLogger(UserMasterServiceImpl.class);
 
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
 		userMaster.setPassword(PasswordEncryption.encrypt(userMaster.getPassword()));
 		try {
+			log.info("user found.");
 			return userMasterDao.addUserMaster(userMaster);
 		} catch (Exception e) {
+			log.error("Duplicate record found", e);
 			throw new DuplicateException(e);
 		}
 	}
@@ -47,10 +52,14 @@ public class UserMasterServiceImpl implements IUserMasterService {
 		UserMaster userMaster = userMasterDao.viewUserMaster(id);
 
 		if (userMaster == null) {
-			throw new NotFoundException("User Master with " + id + " not found.");
+			NotFoundException notFoundException = new NotFoundException("User Master with " + id + " not found.");
+			log.error("User not found", notFoundException);
+			throw notFoundException;
 		}
 		if (userMaster.getPasswordChangeDate() == null) {
-			throw new InvalidPasswordException("Password Not Set");
+			InvalidPasswordException invalidPasswordException = new InvalidPasswordException("Password Not Set");
+			log.error("Wrong password entered.", invalidPasswordException);
+			throw invalidPasswordException;
 		}
 		return userMaster;
 
@@ -60,7 +69,9 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	public List<UserMaster> viewAllByTypeUserMaster(String type) throws NotFoundException {
 		List<UserMaster> list = userMasterDao.viewAllByType(type);
 		if (list == null) {
-			throw new NotFoundException("No Entries in the UserMaster table");
+			NotFoundException notFoundException = new NotFoundException("No Entries in the UserMaster table");
+			log.error("user not found", notFoundException);
+			throw notFoundException;
 		}
 		return list;
 	}
