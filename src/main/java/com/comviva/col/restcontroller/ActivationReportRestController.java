@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,7 @@ public class ActivationReportRestController {
 	 * @return
 	 * @throws DuplicateException
 	 */
+	@PreAuthorize("hasAnyRole('CIRCLE', 'ADMIN')")
 	@PostMapping(value = "/activationReport")
 	@CrossOrigin
 	public ResponseEntity<?> addActivationReport(@RequestBody ActivationReportDto activationReportdto)
@@ -60,6 +62,7 @@ public class ActivationReportRestController {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
+	@PreAuthorize("hasAnyRole('CIRCLE', 'ADMIN')")
 	@PostMapping(value = "/allActivationReport")
 	@CrossOrigin
 	public ResponseEntity<?> addAllActivationReport(@RequestParam String filename) throws IOException {
@@ -77,6 +80,7 @@ public class ActivationReportRestController {
 	 * @return
 	 * @throws NotFoundException
 	 */
+	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@GetMapping(value = "/allActivationReport")
 	@CrossOrigin
 	public ResponseEntity<?> viewActivationReportFromAndToDate(@RequestParam String fromDate,
