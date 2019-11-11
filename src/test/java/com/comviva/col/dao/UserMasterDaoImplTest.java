@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -47,7 +47,7 @@ class UserMasterDaoImplTest {
 
 	private String mobileNumber = "9999999999";
 
-	@Before
+	@BeforeEach
 	public void before() {
 		userMaster = new UserMaster();
 		userMaster.setParentId(parentId);

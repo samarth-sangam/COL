@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.comviva.col.utils.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
