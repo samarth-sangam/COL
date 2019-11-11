@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
+import com.comviva.col.service.FileStorageService;
 import com.comviva.col.service.interfaces.IActivationReportService;
 import com.comviva.col.utils.dto.ActivationReportDto;
 import com.comviva.col.utils.mapper.ActivationReportMapper;
@@ -38,6 +40,9 @@ public class ActivationReportRestController {
 
 	@Autowired
 	private ActivationReportMapper mapper;
+
+	@Autowired
+	private FileStorageService fileStorageService;
 
 	/**
 	 * REST api to add ActivationReport.
@@ -65,10 +70,20 @@ public class ActivationReportRestController {
 	@PreAuthorize("hasAnyRole('CIRCLE', 'ADMIN')")
 	@PostMapping(value = "/allActivationReport")
 	@CrossOrigin
-	public ResponseEntity<?> addAllActivationReport(@RequestParam String filename) throws IOException {
-		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(filename);
+	public ResponseEntity<?> addAllActivationReport(@RequestParam("file") MultipartFile file) throws IOException {
+		String fileName = fileStorageService.storeFile(file);
+
+		/*
+		 * String fileDownloadUri =
+		 * ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
+		 * .path(fileName).toUriString();
+		 */
+
+		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(fileName);
 		activationReportService.addAllActivationReport(list);
+
 		return ResponseEntity.ok("All Added");
+
 	}
 
 	/**
