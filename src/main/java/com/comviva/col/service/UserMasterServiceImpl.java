@@ -3,11 +3,14 @@ package com.comviva.col.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.comviva.col.dao.interfaces.IUserMasterDao;
+import com.comviva.col.entity.AuthUser;
 import com.comviva.col.entity.UserMaster;
 import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.InvalidPasswordException;
@@ -125,21 +128,39 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	@Override
 	public UserMaster resetPassword(int id, String password) throws NotFoundException, InvalidPasswordException {
 		UserMaster userMaster = this.viewUserMaster(id);
+		updateAuthUser(userMaster, password);
+		userMaster.setPassword(password);
 		userMaster.setPasswordChangeDate(LocalDate.now());
 		return userMasterDao.updateWithoutCheckingForUserMaster(userMaster);
+	}
+
+	private void updateAuthUser(UserMaster userMaster, String password) {
+		AuthUser authUser = jwtService.findAuthUser(userMaster.getMobileNumber());
+		if (authUser != null) {
+			authUser.setPassword(password);
+			jwtService.update(authUser);
+		}
+		authUser = jwtService.findAuthUser(String.valueOf(userMaster.getUserId()));
+		if (authUser != null) {
+			authUser.setPassword(password);
+			jwtService.update(authUser);
+		}
 	}
 
 	@Override
 	public UserMaster loginUsingMobileNumber(String mobileNumber, String password)
 			throws NotFoundException, InvalidPasswordException {
-		UserMaster userMaster = userMasterDao.getByMobileNumber(mobileNumber);
-		if (userMaster == null) {
-			throw new NotFoundException("Check Mobile Number");
+		UserMaster userMaster;
+		try {
+			userMaster = userMasterDao.getByMobileNumber(mobileNumber);
+			if (userMaster.getPassword().equalsIgnoreCase(password)) {
+				return userMaster;
+			}
+			throw new InvalidPasswordException("Password doesnot match.");
+		} catch (NoResultException e) {
+			return null;
 		}
-		if (userMaster.getPassword().equalsIgnoreCase(password)) {
-			return userMaster;
-		}
-		throw new InvalidPasswordException("Password doesnot match.");
+
 	}
 
 	@Override

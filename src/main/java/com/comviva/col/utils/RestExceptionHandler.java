@@ -52,7 +52,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler({ FileNotFoundException.class, IOException.class, InvalidPasswordException.class,
 			Exception.class })
-	public ResponseEntity<Object> handleFileNotFoundException(FileNotFoundException ex) {
+	public ResponseEntity<Object> handleFileNotFoundException(Exception ex) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
 		apiError.setMessage(ex.getMessage());
 		return buildResponseEntity(apiError);

@@ -98,7 +98,7 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	public List<UserMaster> viewAllByType(String type) {
 		log.info("Query fired for view all by type{" + type + "} on table = " + TABLE_NAME);
 		Query query = entityManager.createQuery(String.format(VIEW_BY_TYPE, TABLE_NAME));
-		if(query == null)
+		if (query == null)
 			log.error("Query object is identified as null.");
 		query.setParameter("type", type);
 		return query.getResultList();
@@ -108,9 +108,10 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	public UserMaster getByMobileNumber(String mobileNumber) {
 		log.info("Query fired for get by mobile number{" + mobileNumber + "} on table = " + TABLE_NAME);
 		Query query = entityManager.createQuery(String.format(VIEW_BY_MOBILE_NUMBER, TABLE_NAME));
-		if(query == null)
+		if (query == null)
 			log.error("Query object is identified as null.");
-		query.setParameter("cellNo", mobileNumber);
+		if (mobileNumber != null)
+			query.setParameter("cellNo", mobileNumber);
 		return (UserMaster) query.getSingleResult();
 	}
 
@@ -121,9 +122,9 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 
 	@Override
 	public List<UserMaster> viewAllByByParentId(int parentId) {
-		log.info("Query fired for view by parentId{"+parentId+"} on table = " + TABLE_NAME);
+		log.info("Query fired for view by parentId{" + parentId + "} on table = " + TABLE_NAME);
 		Query query = entityManager.createQuery(String.format(VIEW_BY_PARENT_ID, TABLE_NAME));
-		if(query == null)
+		if (query == null)
 			log.error("Query object is identified as null");
 		query.setParameter("parentId", parentId);
 		return query.getResultList();

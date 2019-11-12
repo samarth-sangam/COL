@@ -12,11 +12,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.comviva.col.entity.UserMaster;
+import com.comviva.col.exceptions.InvalidPasswordException;
+import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.security.JwtResponse;
 import com.comviva.col.service.JwtUserDetailsService;
+import com.comviva.col.service.interfaces.IUserMasterService;
 import com.comviva.col.utils.JwtTokenUtil;
 import com.comviva.col.utils.dto.JwtRequest;
 
+/**
+ * JWT Authentication Controller.
+ * 
+ * @author samarth.sangam
+ *
+ */
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
@@ -30,7 +40,11 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
+	@Autowired
+	private IUserMasterService userMasterService;
+
 	@PostMapping(value = "/authenticate")
+	@CrossOrigin
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -39,7 +53,32 @@ public class JwtAuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		JwtResponse response = getUserId(authenticationRequest, token);
+
+		return ResponseEntity.ok(response);
+	}
+
+	/**
+	 * Creates Response Object with token and userId.
+	 * 
+	 * @param authenticationRequest
+	 * @param token
+	 * @return
+	 * @throws NotFoundException
+	 * @throws InvalidPasswordException
+	 */
+	private JwtResponse getUserId(JwtRequest authenticationRequest, final String token)
+			throws NotFoundException, InvalidPasswordException {
+		JwtResponse response = new JwtResponse(token);
+
+		UserMaster userMaster = userMasterService.loginUsingMobileNumber(authenticationRequest.getUsername(),
+				authenticationRequest.getPassword());
+		if (userMaster != null) {
+			response.setUserId(userMaster.getUserId());
+		} else {
+			response.setUserId(Integer.parseInt(authenticationRequest.getUsername()));
+		}
+		return response;
 	}
 
 	private void authenticate(String username, String password) throws Exception {
