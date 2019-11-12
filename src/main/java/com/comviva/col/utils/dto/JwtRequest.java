@@ -1,4 +1,4 @@
-package com.comviva.col.security;
+package com.comviva.col.utils.dto;
 
 import java.io.Serializable;
 

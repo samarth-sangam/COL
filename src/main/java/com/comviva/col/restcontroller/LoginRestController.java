@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comviva.col.service.interfaces.IUserMasterService;
-import com.comviva.col.utils.PasswordEncryption;
 
 /**
- * REST apis for Login.
+ * REST apis for Login Related.
  * 
  * @author samarth.sangam, mahendra.prajapati
  *
@@ -28,40 +27,6 @@ public class LoginRestController {
 	private IUserMasterService userMasterService;
 
 	private Logger log = Logger.getLogger(LoginRestController.class);
-
-	/**
-	 * REST api to login using UserId.
-	 * 
-	 * @param userId
-	 * @param password
-	 * @return
-	 * @throws Exception
-	 */
-	@PostMapping(value = "/userId")
-	@CrossOrigin
-	public ResponseEntity<?> loginUsingUserId(@RequestParam int userId, @RequestParam String password)
-			throws Exception {
-		log.info("Url pattern /api/v1/login/userId invoked for login with user id(" + userId + ").");
-		return ResponseEntity.ok(userMasterService.loginUsingUserId(userId, PasswordEncryption.encrypt(password)));
-
-	}
-
-	/**
-	 * REST api to login using mobileNumber.
-	 * 
-	 * @param mobileNumber
-	 * @param password
-	 * @return
-	 * @throws Exception
-	 */
-	@PostMapping(value = "/mobileNumber")
-	@CrossOrigin
-	public ResponseEntity<?> loginUsingMobileNumber(@RequestParam String mobileNumber, @RequestParam String password)
-			throws Exception {
-		log.info("Url pattern /api/v1/login/mobileNumber invoked for login with user mobileNumber(" + mobileNumber
-				+ ").");
-		return ResponseEntity.ok(userMasterService.loginUsingMobileNumber(mobileNumber, password));
-	}
 
 	/**
 	 * REST api to Reset Password.

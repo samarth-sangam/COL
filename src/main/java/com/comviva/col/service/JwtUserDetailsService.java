@@ -1,4 +1,4 @@
-package com.comviva.col.security;
+package com.comviva.col.service;
 
 import java.util.HashSet;
 import java.util.Set;

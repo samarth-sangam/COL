@@ -30,7 +30,7 @@ public class ActivationReportDto {
 
 	private String actiType;
 
-	private char status;
+	private Character status;
 
 	private ActivationReportDto(ActivationReportBuilder builder) {
 		this.month = builder.month;
@@ -128,11 +128,11 @@ public class ActivationReportDto {
 		this.actiType = actiType;
 	}
 
-	public char getStatus() {
+	public Character getStatus() {
 		return status;
 	}
 
-	public void setStatus(char status) {
+	public void setStatus(Character status) {
 		this.status = status;
 	}
 
@@ -158,7 +158,7 @@ public class ActivationReportDto {
 
 		String actiType;
 
-		char status;
+		Character status;
 
 		public ActivationReportBuilder setMonth(String month) {
 			this.month = month;
@@ -210,7 +210,7 @@ public class ActivationReportDto {
 			return this;
 		}
 
-		public ActivationReportBuilder setStatus(char status) {
+		public ActivationReportBuilder setStatus(Character status) {
 			this.status = status;
 			return this;
 		}

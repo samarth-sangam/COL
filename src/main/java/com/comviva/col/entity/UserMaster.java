@@ -36,6 +36,9 @@ public class UserMaster {
 	@Column(name = "type")
 	String type;
 
+	@Column(name = "location")
+	String location;
+
 	@Column(name = "parent_id")
 	Integer parentId;
 
@@ -104,6 +107,14 @@ public class UserMaster {
 
 	public void setPasswordChangeDate(LocalDate passwordChangeDate) {
 		this.passwordChangeDate = passwordChangeDate;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	@Override

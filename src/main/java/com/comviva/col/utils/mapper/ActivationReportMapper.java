@@ -53,6 +53,9 @@ public class ActivationReportMapper {
 		if (activationReportDto.getScheme() != null) {
 			activationReport.setScheme(activationReportDto.getScheme());
 		}
+		if (activationReportDto.getStatus() != null) {
+			activationReport.setStatus(activationReportDto.getStatus());
+		}
 		return activationReport;
 	}
 

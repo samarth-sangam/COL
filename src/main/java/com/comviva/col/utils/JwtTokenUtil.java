@@ -1,4 +1,4 @@
-package com.comviva.col.security;
+package com.comviva.col.utils;
 
 import java.io.Serializable;
 import java.util.Date;

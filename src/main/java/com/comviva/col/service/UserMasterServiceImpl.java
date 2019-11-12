@@ -14,6 +14,7 @@ import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.service.interfaces.IUserMasterService;
 import com.comviva.col.utils.PasswordEncryption;
+import com.comviva.col.utils.dto.AuthUserDto;
 
 /**
  * UserMaster Service Implementations.
@@ -26,19 +27,43 @@ public class UserMasterServiceImpl implements IUserMasterService {
 
 	@Autowired
 	private IUserMasterDao userMasterDao;
-	
+
+	@Autowired
+	private JwtUserDetailsService jwtService;
+
 	private Logger log = Logger.getLogger(UserMasterServiceImpl.class);
 
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
+		addAuthUserWithMobileNumber(userMaster);
 		userMaster.setPassword(PasswordEncryption.encrypt(userMaster.getPassword()));
 		try {
 			log.info("user found.");
-			return userMasterDao.addUserMaster(userMaster);
+			UserMaster addedUserMaster = userMasterDao.addUserMaster(userMaster);
+			addAuthUserWithUserId(addedUserMaster);
+			return addedUserMaster;
 		} catch (Exception e) {
 			log.error("Duplicate record found", e);
 			throw new DuplicateException(e);
 		}
+	}
+
+	private void addAuthUserWithUserId(UserMaster userMaster) {
+		AuthUserDto dto = new AuthUserDto();
+		dto.setPassword(userMaster.getPassword());
+		dto.setUsername(String.valueOf(userMaster.getUserId()));
+		dto.setRole(userMaster.getType());
+		jwtService.save(dto);
+
+	}
+
+	private void addAuthUserWithMobileNumber(UserMaster userMaster) {
+		AuthUserDto dto = new AuthUserDto();
+		dto.setPassword(userMaster.getPassword());
+		dto.setUsername(userMaster.getMobileNumber());
+		dto.setRole(userMaster.getType());
+		jwtService.save(dto);
+
 	}
 
 	@Override

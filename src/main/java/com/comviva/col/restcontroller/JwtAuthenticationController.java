@@ -1,4 +1,4 @@
-package com.comviva.col.security;
+package com.comviva.col.restcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.comviva.col.utils.dto.AuthUserDto;
+import com.comviva.col.security.JwtResponse;
+import com.comviva.col.service.JwtUserDetailsService;
+import com.comviva.col.utils.JwtTokenUtil;
+import com.comviva.col.utils.dto.JwtRequest;
 
 @RestController
 @CrossOrigin
@@ -49,8 +52,4 @@ public class JwtAuthenticationController {
 		}
 	}
 
-	@PostMapping(value = "/register")
-	public ResponseEntity<?> saveUser(@RequestBody AuthUserDto user) throws Exception {
-		return ResponseEntity.ok(userDetailsService.save(user));
-	}
 }

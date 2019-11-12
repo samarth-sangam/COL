@@ -55,7 +55,7 @@ public class ActivationReport {
 	String actiType;
 
 	@Column(name = "status")
-	char status;
+	Character status;
 
 	public int getTrId() {
 		return trId;
@@ -153,11 +153,11 @@ public class ActivationReport {
 		this.actiType = actiType;
 	}
 
-	public char getStatus() {
+	public Character getStatus() {
 		return status;
 	}
 
-	public void setStatus(char status) {
+	public void setStatus(Character status) {
 		this.status = status;
 	}
 
