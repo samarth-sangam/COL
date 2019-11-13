@@ -2,9 +2,6 @@ HELP.md
 target/
 log/
 activation_reports/
-=======
-acivation_reports/
->>>>>>> 8e601b7d96fb83769b99b6026af939db8151409c
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
