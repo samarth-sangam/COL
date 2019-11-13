@@ -1,5 +1,10 @@
 package com.comviva.col.utils.dto;
 
+/**
+ * 
+ * @author samarth.sangam
+ *
+ */
 public class AuthUserDto {
 	private String username;
 	private String password;

@@ -16,6 +16,11 @@ import com.comviva.col.entity.AuthUser;
 import com.comviva.col.repository.AuthUserRepository;
 import com.comviva.col.utils.dto.AuthUserDto;
 
+/**
+ * 
+ * @author samarth.sangam
+ *
+ */
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
@@ -45,6 +50,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	}
 
 	public AuthUser update(AuthUser user) {
+		user.setPassword(bcryptEncoder.encode(user.getPassword()));
 		return userDao.save(user);
 	}
 

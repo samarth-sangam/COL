@@ -43,6 +43,13 @@ public class JwtAuthenticationController {
 	@Autowired
 	private IUserMasterService userMasterService;
 
+	/**
+	 * REST api to authenticate and create JWT Token.
+	 * 
+	 * @param authenticationRequest
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping(value = "/authenticate")
 	@CrossOrigin
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -53,13 +60,11 @@ public class JwtAuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		JwtResponse response = getUserId(authenticationRequest, token);
-
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(getUser(authenticationRequest, token));
 	}
 
 	/**
-	 * Creates Response Object with token and userId.
+	 * Creates Response Object.
 	 * 
 	 * @param authenticationRequest
 	 * @param token
@@ -67,20 +72,32 @@ public class JwtAuthenticationController {
 	 * @throws NotFoundException
 	 * @throws InvalidPasswordException
 	 */
-	private JwtResponse getUserId(JwtRequest authenticationRequest, final String token)
+	private JwtResponse getUser(JwtRequest authenticationRequest, final String token)
 			throws NotFoundException, InvalidPasswordException {
-		JwtResponse response = new JwtResponse(token);
 
 		UserMaster userMaster = userMasterService.loginUsingMobileNumber(authenticationRequest.getUsername(),
 				authenticationRequest.getPassword());
-		if (userMaster != null) {
-			response.setUserId(userMaster.getUserId());
-		} else {
-			response.setUserId(Integer.parseInt(authenticationRequest.getUsername()));
+
+		JwtResponse response = new JwtResponse(token);
+
+		if (userMaster == null) {
+			userMaster = userMasterService.loginUsingUserId(Integer.parseInt(authenticationRequest.getUsername()),
+					authenticationRequest.getPassword());
 		}
+
+		response.setUserId(userMaster.getUserId());
+		response.setType(userMaster.getType());
+		response.setPasswordChangeDate(userMaster.getPasswordChangeDate());
 		return response;
 	}
 
+	/**
+	 * Authenticate JWT.
+	 * 
+	 * @param username
+	 * @param password
+	 * @throws Exception
+	 */
 	private void authenticate(String username, String password) throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

@@ -29,6 +29,15 @@ public interface IActivationReportDao {
 
 	boolean deleteActivationReport(int id);
 
+	/**
+	 * View Activation Reports of AgentCode from a particular date to a particular
+	 * date.
+	 * 
+	 * @param fromDate
+	 * @param toDate
+	 * @param externalId
+	 * @return
+	 */
 	List<ActivationReport> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String externalId);
 
 	List<ActivationReport> viewByMonth(String month, String id);

@@ -1,5 +1,10 @@
 package com.comviva.col.utils.dto;
 
+/**
+ * 
+ * @author samarth.sangam
+ *
+ */
 public class UserMasterDto {
 
 	String username;
@@ -8,6 +13,7 @@ public class UserMasterDto {
 	String mobileNumber;
 	String type;
 	Integer parentId;
+	String location;
 
 	public String getUsername() {
 		return username;
@@ -55,6 +61,14 @@ public class UserMasterDto {
 
 	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }

@@ -20,6 +20,11 @@ import com.comviva.col.utils.JwtTokenUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
+/**
+ * 
+ * @author samarth.sangam
+ *
+ */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

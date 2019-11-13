@@ -39,11 +39,13 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
 		addAuthUserWithMobileNumber(userMaster);
-		userMaster.setPassword(PasswordEncryption.encrypt(userMaster.getPassword()));
+		String password = userMaster.getPassword();
+		userMaster.setPassword(PasswordEncryption.encrypt(password));
 		try {
 			log.info("user found.");
 			UserMaster addedUserMaster = userMasterDao.addUserMaster(userMaster);
-			addAuthUserWithUserId(addedUserMaster);
+
+			addAuthUserWithUserId(addedUserMaster, password);
 			return addedUserMaster;
 		} catch (Exception e) {
 			log.error("Duplicate record found", e);
@@ -51,9 +53,9 @@ public class UserMasterServiceImpl implements IUserMasterService {
 		}
 	}
 
-	private void addAuthUserWithUserId(UserMaster userMaster) {
+	private void addAuthUserWithUserId(UserMaster userMaster, String password) {
 		AuthUserDto dto = new AuthUserDto();
-		dto.setPassword(userMaster.getPassword());
+		dto.setPassword(password);
 		dto.setUsername(String.valueOf(userMaster.getUserId()));
 		dto.setRole(userMaster.getType());
 		jwtService.save(dto);
@@ -119,7 +121,7 @@ public class UserMasterServiceImpl implements IUserMasterService {
 		if (userMaster == null) {
 			throw new NotFoundException("Check the UserId.");
 		}
-		if (userMaster.getPassword().equalsIgnoreCase(password)) {
+		if (userMaster.getPassword().equals(PasswordEncryption.encrypt(password))) {
 			return userMaster;
 		}
 		throw new InvalidPasswordException("Password doesnot match.");
@@ -127,9 +129,9 @@ public class UserMasterServiceImpl implements IUserMasterService {
 
 	@Override
 	public UserMaster resetPassword(int id, String password) throws NotFoundException, InvalidPasswordException {
-		UserMaster userMaster = this.viewUserMaster(id);
+		UserMaster userMaster = userMasterDao.viewUserMaster(id);
 		updateAuthUser(userMaster, password);
-		userMaster.setPassword(password);
+		userMaster.setPassword(PasswordEncryption.encrypt(password));
 		userMaster.setPasswordChangeDate(LocalDate.now());
 		return userMasterDao.updateWithoutCheckingForUserMaster(userMaster);
 	}
@@ -153,7 +155,7 @@ public class UserMasterServiceImpl implements IUserMasterService {
 		UserMaster userMaster;
 		try {
 			userMaster = userMasterDao.getByMobileNumber(mobileNumber);
-			if (userMaster.getPassword().equalsIgnoreCase(password)) {
+			if (userMaster.getPassword().equals(PasswordEncryption.encrypt(password))) {
 				return userMaster;
 			}
 			throw new InvalidPasswordException("Password doesnot match.");

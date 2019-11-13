@@ -8,10 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author mahendra.prajapati
- * @since 28-October-2019
+ * JWT Authenication User.
+ * 
+ * @author mahendra.prajapati, samarth.sangam
  */
-
 @Entity
 @Table(name = "jwt_auth_user")
 public class AuthUser {

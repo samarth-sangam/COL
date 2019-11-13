@@ -4,6 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.comviva.col.entity.UserMaster;
 
+/**
+ * 
+ * @author samarth.sangam
+ *
+ */
 public interface UserMasterRepository extends JpaRepository<UserMaster, Integer> {
 
 }

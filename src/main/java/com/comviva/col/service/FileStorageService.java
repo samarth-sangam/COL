@@ -18,6 +18,11 @@ import com.comviva.col.FileStorageProperties;
 import com.comviva.col.exceptions.FileStorageException;
 import com.comviva.col.exceptions.MyFileNotFoundException;
 
+/**
+ * 
+ * @author samarth.sangam
+ *
+ */
 @Service
 public class FileStorageService {
 

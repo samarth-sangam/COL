@@ -2,6 +2,11 @@ package com.comviva.col.utils.dto;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author samarth.sangam
+ *
+ */
 public class JwtRequest implements Serializable {
 
 	private static final long serialVersionUID = 5926468583005150707L;
