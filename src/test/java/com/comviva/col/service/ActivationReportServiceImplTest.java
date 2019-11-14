@@ -20,7 +20,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.comviva.col.dao.ActivationReportDaoImpl;
 import com.comviva.col.entity.ActivationReport;
-import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.utils.dto.ActivationReportDto;
 
@@ -76,89 +75,6 @@ class ActivationReportServiceImplTest {
 
 	/**
 	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#addActivationReport(com.comviva.col.entity.ActivationReport)}.
-	 * 
-	 * @throws DuplicateException
-	 */
-	@Test
-	final void testAddActivationReport_Success() throws DuplicateException {
-		when(service.addActivationReport(entity)).thenReturn(entity);
-		assertEquals(entity, service.addActivationReport(entity));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#addActivationReport(com.comviva.col.entity.ActivationReport)}.
-	 * 
-	 */
-	@Test
-	final void testAddActivationReport_Failure() {
-		try {
-			when(service.addActivationReport(entity)).thenThrow(new DuplicateException(EXISTS));
-			service.addActivationReport(entity);
-			fail("failure");
-		} catch (DuplicateException e) {
-			assertEquals(EXISTS, e.getMessage());
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#deleteActivationReport(int)}.
-	 * 
-	 * @throws NotFoundException
-	 */
-	@Test
-	final void testDeleteActivationReport_Success() throws NotFoundException {
-		when(service.deleteActivationReport(trId)).thenReturn("DELETED");
-		assertEquals("DELETED", service.deleteActivationReport(trId));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#deleteActivationReport(int)}.
-	 */
-	@Test
-	final void testDeleteActivationReport_Failure() {
-		try {
-			when(service.deleteActivationReport(trId)).thenThrow(new NotFoundException(NOT_EXISTS));
-			service.deleteActivationReport(trId);
-			fail("Failure");
-		} catch (NotFoundException e) {
-			assertEquals(NOT_EXISTS, e.getMessage());
-		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewActivationReport(int)}.
-	 * 
-	 * @throws NotFoundException
-	 */
-	@Test
-	final void testViewActivationReport_Success() throws NotFoundException {
-		when(service.viewActivationReport(trId)).thenReturn(entity);
-		assertEquals(entity, service.viewActivationReport(trId));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewActivationReport(int)}.
-	 */
-	@Test
-	final void testViewActivationReport_Failure() {
-		try {
-			when(service.viewActivationReport(trId)).thenThrow(new NotFoundException(NOT_EXISTS));
-			service.viewActivationReport(trId);
-			fail("Failure");
-		} catch (NotFoundException e) {
-			assertEquals(NOT_EXISTS, e.getMessage());
-		}
-
-	}
-
-	/**
-	 * Test method for
 	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
 	 * 
 	 * @throws NotFoundException
@@ -193,17 +109,6 @@ class ActivationReportServiceImplTest {
 	final void testAddAllActivationReport() {
 		when(service.addAllActivationReport(listDto)).thenReturn(listEntity);
 		assertEquals(listEntity, service.addAllActivationReport(listDto));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByMonth(java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	final void testViewByMonth() {
-		when(service.viewByMonth(month, agentCode)).thenReturn(listEntity);
-		assertEquals(listEntity, service.viewByMonth(month, agentCode));
-
 	}
 
 }

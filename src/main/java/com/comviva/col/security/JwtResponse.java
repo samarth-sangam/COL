@@ -14,6 +14,7 @@ public class JwtResponse implements Serializable {
 	private static final long serialVersionUID = -8091879091924046844L;
 	private final String jwttoken;
 
+	String location;
 	private Integer userId;
 	String type;
 	LocalDate passwordChangeDate;
@@ -48,6 +49,14 @@ public class JwtResponse implements Serializable {
 
 	public void setPasswordChangeDate(LocalDate passwordChangeDate) {
 		this.passwordChangeDate = passwordChangeDate;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }

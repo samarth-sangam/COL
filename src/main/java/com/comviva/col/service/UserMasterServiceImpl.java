@@ -174,4 +174,16 @@ public class UserMasterServiceImpl implements IUserMasterService {
 		return list;
 	}
 
+	@Override
+	public UserMaster viewByIdWithoutCheckingPassword(int id) throws NotFoundException {
+		UserMaster userMaster = userMasterDao.viewUserMaster(id);
+
+		if (userMaster == null) {
+			NotFoundException notFoundException = new NotFoundException("User Master with " + id + " not found.");
+			log.error("User not found", notFoundException);
+			throw notFoundException;
+		}
+		return userMaster;
+	}
+
 }

@@ -1,4 +1,4 @@
-package com.comviva.col.security;
+package com.comviva.col.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.comviva.col.security.JwtAuthenticationEntryPoint;
+import com.comviva.col.security.JwtRequestFilter;
 
 /**
  * 
@@ -69,4 +72,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
+
+	/*
+	 * @Bean CorsConfigurationSource corsConfigurationSource() {
+	 * UrlBasedCorsConfigurationSource source = new
+	 * UrlBasedCorsConfigurationSource(); source.registerCorsConfiguration("/**",
+	 * new CorsConfiguration().applyPermitDefaultValues()); return source; }
+	 */
 }

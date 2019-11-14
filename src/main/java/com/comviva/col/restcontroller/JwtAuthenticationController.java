@@ -51,7 +51,7 @@ public class JwtAuthenticationController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/authenticate")
-	@CrossOrigin
+	@CrossOrigin(origins = "*")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -88,6 +88,7 @@ public class JwtAuthenticationController {
 		response.setUserId(userMaster.getUserId());
 		response.setType(userMaster.getType());
 		response.setPasswordChangeDate(userMaster.getPasswordChangeDate());
+		response.setLocation(userMaster.getLocation());
 		return response;
 	}
 

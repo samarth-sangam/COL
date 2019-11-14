@@ -22,8 +22,6 @@ import com.comviva.col.dao.interfaces.IBaseDao;
  */
 public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 
-	private static final String MONTH = "month";
-
 	private static final String TO_DATE = "toDate";
 
 	private static final String FROM_DATE = "fromDate";
@@ -37,10 +35,6 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 
 	private static final String FROM_TO_DATE_QUERY = "from %s "
 			+ "c where agent_code = :agentCode AND activation_date BETWEEN :fromDate AND :toDate";
-
-	private static final String MONTH_QUERY = "from %s where agent_code = :agentCode AND month = :month";
-
-	private static final String DELETE_BY_MONTH = "delete %s where month = :month AND agent_code = :agentCode";
 
 	/**
 	 * Generic method to find row by between fromDate to toDate by agentCode.
@@ -61,24 +55,4 @@ public abstract class AbstractDaoImpl<T> implements IBaseDao<T> {
 		return query.getResultList();
 	}
 
-	@Override
-	public List<T> viewByMonth(String month, String agentCode, String tableName) {
-		log.info("Values={month:" + month + ", agentCode:" + agentCode + ", tabelName" + tableName + "}");
-		Query query = entityManager.createQuery(String.format(MONTH_QUERY, tableName));
-		if (query == null)
-			log.error("Query object is identified as null.");
-		query.setParameter(AGENT_CODE, agentCode);
-		query.setParameter(MONTH, month);
-		return query.getResultList();
-	}
-
-	public void deleteByMonth(String month, String id, String tableName) {
-		log.info("Values={month:" + month + ", id:" + id + ", tableName:" + tableName + "}");
-		Query query = entityManager.createQuery(String.format(DELETE_BY_MONTH, tableName));
-		if (query == null)
-			log.error("Query object is identified as null.");
-		query.setParameter(MONTH, month);
-		query.setParameter(AGENT_CODE, id);
-		query.executeUpdate();
-	}
 }

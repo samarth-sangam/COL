@@ -99,4 +99,13 @@ public interface IUserMasterService {
 	 */
 	List<UserMaster> viewAllByParentId(int parentId) throws NotFoundException;
 
+	/**
+	 * Return User without checking userMaster.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws NotFoundException
+	 */
+	UserMaster viewByIdWithoutCheckingPassword(int id) throws NotFoundException;
+
 }

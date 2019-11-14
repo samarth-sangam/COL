@@ -3,11 +3,7 @@
  */
 package com.comviva.col.dao;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -61,106 +57,6 @@ class ActivationReportDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#addActivationReport(com.comviva.col.entity.ActivationReport)}.
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	final void testAddActivationReport_Success() throws Exception {
-		when(dao.addActivationReport(activationReport)).thenReturn(activationReport);
-		assertEquals(activationReport, dao.addActivationReport(activationReport));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#addActivationReport(com.comviva.col.entity.ActivationReport)}.
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	final void testAddActivationReport_Failure() {
-		try {
-			when(dao.addActivationReport(activationReport)).thenThrow(new Exception("Exists"));
-			dao.addActivationReport(activationReport);
-		} catch (Exception e) {
-			assertEquals("Exists", e.getMessage());
-			return;
-		}
-		fail("Failure");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#viewActivationReport(int)}.
-	 */
-	@Test
-	final void testViewActivationReport_Success() {
-		when(dao.viewActivationReport(trId)).thenReturn(activationReport);
-		assertEquals(activationReport, dao.viewActivationReport(trId));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#viewActivationReport(int)}.
-	 */
-	@Test
-	final void testViewActivationReport_Failure() {
-		when(dao.viewActivationReport(trId)).thenReturn(null);
-		assertNull(dao.viewActivationReport(trId));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#updateActivationReport(com.comviva.col.entity.ActivationReport)}.
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	final void testUpdateActivationReport_Success() throws Exception {
-		when(dao.updateActivationReport(activationReport)).thenReturn(activationReport);
-		assertEquals(activationReport, dao.updateActivationReport(activationReport));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#updateActivationReport(com.comviva.col.entity.ActivationReport)}.
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	final void testUpdateActivationReport_Failure() {
-		try {
-			when(dao.updateActivationReport(activationReport)).thenThrow(new Exception("Not Exists"));
-			dao.updateActivationReport(activationReport);
-		} catch (Exception e) {
-			assertEquals("Not Exists", e.getMessage());
-			return;
-		}
-		fail("Failure");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#deleteActivationReport(int)}.
-	 */
-	@Test
-	final void testDeleteActivationReport_Success() {
-		when(dao.deleteActivationReport(trId)).thenReturn(true);
-		assertTrue(dao.deleteActivationReport(trId));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#deleteActivationReport(int)}.
-	 */
-	@Test
-	final void testDeleteActivationReport_Failure() {
-		when(dao.deleteActivationReport(trId)).thenReturn(false);
-		assertFalse(dao.deleteActivationReport(trId));
-	}
-
-	/**
-	 * Test method for
 	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#addAllActivationReport(java.util.List)}.
 	 */
 	@Test
@@ -177,24 +73,6 @@ class ActivationReportDaoImplTest {
 	final void testViewByFromAndToDateLocalDateLocalDateString() {
 		when(dao.viewByFromAndToDate(from, to, agentCode)).thenReturn(list);
 		assertEquals(list.size(), dao.viewByFromAndToDate(from, to, agentCode).size());
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#viewByMonth(java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	final void testViewByMonthStringString() {
-		when(dao.viewByMonth(month, agentCode)).thenReturn(list);
-		assertEquals(list.size(), dao.viewByMonth(month, agentCode).size());
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#deleteByMonth(java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	final void testDeleteByMonthStringString() {
 	}
 
 }

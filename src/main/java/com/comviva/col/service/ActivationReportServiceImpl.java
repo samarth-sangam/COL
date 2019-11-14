@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.comviva.col.dao.interfaces.IActivationReportDao;
 import com.comviva.col.entity.ActivationReport;
-import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.service.interfaces.IActivationReportService;
 import com.comviva.col.utils.dto.ActivationReportDto;
@@ -33,43 +32,6 @@ public class ActivationReportServiceImpl implements IActivationReportService {
 	private Logger log = Logger.getLogger(ActivationReportServiceImpl.class);
 
 	@Override
-	public ActivationReport addActivationReport(ActivationReport activationReport) throws DuplicateException {
-		try {
-			log.info("Adding activation report");
-			return activationReportDao.addActivationReport(activationReport);
-		} catch (Exception e) {
-			log.error("Exception : " + e.getMessage(), e);
-			throw new DuplicateException(e);
-		}
-	}
-
-	@Override
-	public String deleteActivationReport(int id) throws NotFoundException {
-		log.info("deletion by id(" + id + ") started.");
-		if (activationReportDao.deleteActivationReport(id)) {
-			return "ACtivation Report Deleted";
-		}
-		NotFoundException notFoundException = new NotFoundException(
-				"ActivationReport with id " + id + " does not exists.");
-		log.error("Exception occured : NotFoundException", notFoundException);
-		throw notFoundException;
-	}
-
-	@Override
-	public ActivationReport viewActivationReport(int id) throws NotFoundException {
-		log.info("view by activation id(" + id + ") started.");
-		ActivationReport activationReport = activationReportDao.viewActivationReport(id);
-		if (activationReport == null) {
-			NotFoundException notFoundException = new NotFoundException(
-					"Activation Report with Transaction Id " + id + "not found.");
-			log.error("Activation report not found with the id(" + id + ")", notFoundException);
-			throw notFoundException;
-		}
-
-		return activationReport;
-	}
-
-	@Override
 	public List<ActivationReport> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String agentCode)
 			throws NotFoundException {
 		List<ActivationReport> list = activationReportDao.viewByFromAndToDate(fromDate, toDate, agentCode);
@@ -90,11 +52,6 @@ public class ActivationReportServiceImpl implements IActivationReportService {
 			activationReportList.add(mapper.toEntity(obj));
 		}
 		return activationReportDao.addAllActivationReport(activationReportList);
-	}
-
-	@Override
-	public List<ActivationReport> viewByMonth(String month, String id) {
-		return activationReportDao.viewByMonth(month, id);
 	}
 
 }

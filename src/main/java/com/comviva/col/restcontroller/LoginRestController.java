@@ -37,7 +37,7 @@ public class LoginRestController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "{id}/resetPassword")
-	@CrossOrigin
+	@CrossOrigin(origins = "*")
 	public ResponseEntity<?> resetPassword(@PathVariable int id, @RequestParam String password) throws Exception {
 		log.info("Url pattern /api/v1/login/" + id + "/resetPassword invoked for resetting the password");
 		return ResponseEntity.ok(userMasterService.resetPassword(id, password));

@@ -12,6 +12,4 @@ import java.util.List;
  */
 public interface IBaseDao<T> {
 	List<T> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String agentCode, String table);
-
-	List<T> viewByMonth(String month, String id, String table);
 }

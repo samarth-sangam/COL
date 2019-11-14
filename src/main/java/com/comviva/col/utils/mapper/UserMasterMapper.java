@@ -41,6 +41,9 @@ public class UserMasterMapper {
 		if (userMasterDto.getUsername() != null) {
 			userMaster.setUsername(userMasterDto.getUsername());
 		}
+		if (userMasterDto.getLocation() != null) {
+			userMaster.setLocation(userMasterDto.getLocation());
+		}
 		return userMaster;
 	}
 
@@ -69,6 +72,9 @@ public class UserMasterMapper {
 
 		if (userMaster.getUsername() != null) {
 			userMasterDto.setUsername(userMaster.getUsername());
+		}
+		if (userMaster.getLocation() != null) {
+			userMasterDto.setLocation(userMaster.getLocation());
 		}
 		return userMasterDto;
 	}

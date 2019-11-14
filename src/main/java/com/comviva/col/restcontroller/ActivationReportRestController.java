@@ -12,13 +12,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.service.FileStorageService;
 import com.comviva.col.service.interfaces.IActivationReportService;
@@ -41,27 +39,11 @@ public class ActivationReportRestController {
 
 	@Autowired
 	private ActivationReportMapper mapper;
-	
+
 	private Logger log = Logger.getLogger(ActivationReportRestController.class);
 
 	@Autowired
 	private FileStorageService fileStorageService;
-
-	/**
-	 * REST api to add ActivationReport.
-	 * 
-	 * @param activationReportdto
-	 * @return
-	 * @throws DuplicateException
-	 */
-	@PreAuthorize("hasAnyRole('CIRCLE', 'ADMIN')")
-	@PostMapping(value = "/activationReport")
-	@CrossOrigin
-	public ResponseEntity<?> addActivationReport(@RequestBody ActivationReportDto activationReportdto)
-			throws DuplicateException {
-		log.info("Url pattern /api/v1/activationReport/activationReport invoked for adding single report.");
-		return ResponseEntity.ok(activationReportService.addActivationReport(mapper.toEntity(activationReportdto)));
-	}
 
 	/**
 	 * REST api to add ActivationReports from csv file.
@@ -73,12 +55,12 @@ public class ActivationReportRestController {
 	 */
 	@PreAuthorize("hasAnyRole('CIRCLE', 'ADMIN')")
 	@PostMapping(value = "/allActivationReport")
-	@CrossOrigin
+	@CrossOrigin(origins = "*")
 	public ResponseEntity<?> addAllActivationReport(@RequestParam("file") MultipartFile file) throws IOException {
 		log.info("Url pattern /api/v1/activationReport/allActivationReport invoked for adding report in bulk.");
 		String fileName = fileStorageService.storeFile(file);
 		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(fileName);
-		if(list == null)
+		if (list == null)
 			log.error("Failed to convert csv to list. List object is identified as null.");
 		activationReportService.addAllActivationReport(list);
 		log.info("All reports are added by csv.");
@@ -97,10 +79,12 @@ public class ActivationReportRestController {
 	 */
 	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@GetMapping(value = "/allActivationReport")
-	@CrossOrigin
+	@CrossOrigin(origins = "*")
 	public ResponseEntity<?> viewActivationReportFromAndToDate(@RequestParam String fromDate,
 			@RequestParam String toDate, @RequestParam String agentCode) throws NotFoundException {
-		log.info("Url pattern /api/v1/activationReport/allActivationReport invoked for seaching the activation report from("+fromDate+"), toDate("+toDate+") agentCode("+agentCode+")");
+		log.info(
+				"Url pattern /api/v1/activationReport/allActivationReport invoked for seaching the activation report from("
+						+ fromDate + "), toDate(" + toDate + ") agentCode(" + agentCode + ")");
 		return ResponseEntity.ok(activationReportService.viewByFromAndToDate(LocalDate.parse(fromDate),
 				LocalDate.parse(toDate), agentCode));
 	}
