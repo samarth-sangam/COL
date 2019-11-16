@@ -17,7 +17,7 @@ import com.comviva.col.utils.dto.ActivationReportDto;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-class ActivationReportMapperTest {
+class ActivationReportMapperMockitoTest {
 
 	private ActivationReportMapper mapper = Mockito.mock(ActivationReportMapper.class);
 

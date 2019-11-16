@@ -4,65 +4,72 @@
 package com.comviva.col.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.comviva.col.ColApplication;
 import com.comviva.col.entity.ActivationReport;
-import com.comviva.col.repository.ActivationReportRepository;
 
 /**
  * @author samarth.sangam
  *
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ColApplication.class)
+@ActiveProfiles("Test")
 class ActivationReportDaoImplTest {
 
-	@Mock
-	private ActivationReportRepository repository;
-
-	private ActivationReportDaoImpl dao = Mockito.mock(ActivationReportDaoImpl.class);
+	@Autowired
+	private ActivationReportDaoImpl dao;
 
 	private ActivationReport activationReport;
 
-	private int trId;
+	private List<ActivationReport> list;
 
-	private List<ActivationReport> list = new ArrayList<>();
-
-	private LocalDate from = LocalDate.of(2019, 10, 01);
-
-	private LocalDate to = LocalDate.of(2019, 11, 01);
-
-	private String agentCode = "100";
-
-	private String month = "MARCH";
-
-	@Before
-	public void before() {
+	/**
+	 * @throws java.lang.Exception
+	 */
+	void set() throws Exception {
 		activationReport = new ActivationReport();
-		trId = 1;
 		activationReport.setTrId(1);
-		activationReport.setAgentCode("100");
+		activationReport.setActiType("actiType");
+		activationReport.setActivationDate(LocalDate.now());
+		activationReport.setAgentCode("1");
+		activationReport.setAmount("1000");
+		activationReport.setCategory("category");
+		activationReport.setExternalId("externalId");
+		activationReport.setIncentive("incentive");
+		activationReport.setMobileNumber("mobileNumber");
+		activationReport.setMonth("month");
+		activationReport.setName("name");
+		activationReport.setScheme("scheme");
+		activationReport.setStatus(new Character('Y'));
+		list = new ArrayList<>();
 		list.add(activationReport);
+
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.comviva.col.dao.ActivationReportDaoImpl#addAllActivationReport(java.util.List)}.
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-	final void testAddAllActivationReport_Success() {
-		when(dao.addAllActivationReport(list)).thenReturn(list);
-		assertEquals(list.size(), dao.addAllActivationReport(list).size());
+	final void testAddAllActivationReport() throws Exception {
+		this.set();
+		List<ActivationReport> actual = dao.addAllActivationReport(list);
+		assertEquals(actual.size(), list.size());
+
 	}
 
 	/**
@@ -71,8 +78,9 @@ class ActivationReportDaoImplTest {
 	 */
 	@Test
 	final void testViewByFromAndToDateLocalDateLocalDateString() {
-		when(dao.viewByFromAndToDate(from, to, agentCode)).thenReturn(list);
-		assertEquals(list.size(), dao.viewByFromAndToDate(from, to, agentCode).size());
+		List<ActivationReport> actual = dao.viewByFromAndToDate(LocalDate.of(2019, 11, 01), LocalDate.of(2019, 11, 20),
+				"1");
+		assertEquals(1, actual.size());
 	}
 
 }

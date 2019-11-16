@@ -3,22 +3,21 @@
  */
 package com.comviva.col.service;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.comviva.col.dao.ActivationReportDaoImpl;
+import com.comviva.col.ColApplication;
 import com.comviva.col.entity.ActivationReport;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.utils.dto.ActivationReportDto;
@@ -27,50 +26,46 @@ import com.comviva.col.utils.dto.ActivationReportDto;
  * @author samarth.sangam
  *
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ColApplication.class)
+@ActiveProfiles("Test")
 class ActivationReportServiceImplTest {
 
-	private static final String EXISTS = "Exists";
-
-	private static final String NOT_EXISTS = "Not Exists";
-
-	@Mock
-	private ActivationReportDaoImpl dao;
-
-	private ActivationReportServiceImpl service = Mockito.mock(ActivationReportServiceImpl.class);
-
-	private ActivationReport entity;
+	@Autowired
+	private ActivationReportServiceImpl service;
 
 	private ActivationReportDto dto;
 
-	private int trId;
-
-	private String agentCode;
-
-	private LocalDate from = LocalDate.of(2019, 10, 01);
-
-	private LocalDate to = LocalDate.of(2019, 11, 01);
-
-	private List<ActivationReport> listEntity = new ArrayList<>();
-
-	private List<ActivationReportDto> listDto = new ArrayList<>();
-
-	private String month = "MARCH";
+	private List<ActivationReportDto> list = new ArrayList<>();
 
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@BeforeEach
-	void setUp() throws Exception {
-		trId = 1;
-		agentCode = "100";
-		entity = new ActivationReport();
-		entity.setTrId(trId);
-		entity.setAgentCode(agentCode);
-		listEntity.add(entity);
+	void setUp() {
 		dto = new ActivationReportDto();
-		dto.setAgentCode(agentCode);
-		listDto.add(dto);
+		dto.setActiType("actiType");
+		dto.setActivationDate(LocalDate.now());
+		dto.setAgentCode("agentCode");
+		dto.setCategory("category");
+		dto.setExternalId("externalId");
+		dto.setIncentive("incentive");
+		dto.setMobileNumber("mobileNumber");
+		dto.setMonth("month");
+		dto.setName("name");
+		dto.setScheme("scheme");
+		dto.setStatus('y');
+		list.add(dto);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.comviva.col.service.ActivationReportServiceImpl#addAllActivationReport(java.util.List)}.
+	 */
+	@Test
+	final void testAddAllActivationReport() {
+		this.setUp();
+		List<ActivationReport> actual = service.addAllActivationReport(list);
+		assertEquals(1, actual.size());
 	}
 
 	/**
@@ -81,34 +76,27 @@ class ActivationReportServiceImplTest {
 	 */
 	@Test
 	final void testViewByFromAndToDate_Success() throws NotFoundException {
-		when(service.viewByFromAndToDate(from, to, agentCode)).thenReturn(listEntity);
-		assertEquals(listEntity, service.viewByFromAndToDate(from, to, agentCode));
+		List<ActivationReport> actual = service.viewByFromAndToDate(LocalDate.of(2019, 11, 01),
+				LocalDate.of(2019, 11, 20), "agentCode");
+		assertEquals(1, actual.size());
+
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
 	 * 
+	 * @throws NotFoundException
 	 */
 	@Test
-	final void testViewByFromAndToDate_Failure() {
+	final void testViewByFromAndToDate_Exception() {
 		try {
-			when(service.viewByFromAndToDate(from, to, agentCode)).thenThrow(new NotFoundException(NOT_EXISTS));
-			service.viewByFromAndToDate(from, to, agentCode);
-			fail("failure");
+			List<ActivationReport> actual = service.viewByFromAndToDate(LocalDate.of(2019, 10, 01),
+					LocalDate.of(2019, 10, 20), "agentCode");
 		} catch (NotFoundException e) {
-			assertEquals(NOT_EXISTS, e.getMessage());
+			assertTrue(true);
 		}
-	}
 
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#addAllActivationReport(java.util.List)}.
-	 */
-	@Test
-	final void testAddAllActivationReport() {
-		when(service.addAllActivationReport(listDto)).thenReturn(listEntity);
-		assertEquals(listEntity, service.addAllActivationReport(listDto));
 	}
 
 }

@@ -4,57 +4,58 @@
 package com.comviva.col.dao;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.comviva.col.ColApplication;
 import com.comviva.col.entity.UserMaster;
-import com.comviva.col.repository.UserMasterRepository;
 
 /**
  * @author samarth.sangam
  *
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ColApplication.class)
+@ActiveProfiles("Test")
 class UserMasterDaoImplTest {
 
-	@Mock
-	private UserMasterRepository repository;
-
-	private UserMasterDaoImpl dao = Mockito.mock(UserMasterDaoImpl.class);
+	@Autowired
+	private UserMasterDaoImpl dao;
 
 	private UserMaster userMaster;
 
-	private int userId = 1;
-
 	private List<UserMaster> list = new ArrayList<>();
 
-	private int parentId = 100;
+	private int userId = 1;
 
-	private String type = "ADMIN";
-
-	private String mobileNumber = "9999999999";
-
-	@BeforeEach
-	public void before() {
+	/**
+	 * @throws java.lang.Exception
+	 */
+	void setUp() {
 		userMaster = new UserMaster();
-		userMaster.setParentId(parentId);
-		userMaster.setMobileNumber(mobileNumber);
-		userMaster.setType(type);
+		userMaster.setEmail("email");
+		userMaster.setLocation("location");
+		userMaster.setMobileNumber("mobileNumber");
+		userMaster.setParentId(2);
+		userMaster.setPassword("password");
+		userMaster.setPasswordChangeDate(LocalDate.of(2019, 10, 01));
+		userMaster.setType("type");
+		userMaster.setUsername("username");
+		userMaster.setUserId(userId);
 		list.add(userMaster);
-
 	}
 
 	/**
@@ -62,10 +63,11 @@ class UserMasterDaoImplTest {
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#addAllUserMaster(java.util.List)}.
 	 */
 	@Test
-	final void testAddAllUserMaster_Success() {
-		when(dao.addAllUserMaster(list)).thenReturn(list);
-		assertEquals(list.size(), dao.addAllUserMaster(list).size());
-
+	final void testAddAllUserMaster() {
+		this.setUp();
+		List<UserMaster> actual = dao.addAllUserMaster(list);
+		userId = actual.get(0).getUserId();
+		assertEquals(1, actual.size());
 	}
 
 	/**
@@ -76,8 +78,11 @@ class UserMasterDaoImplTest {
 	 */
 	@Test
 	final void testAddUserMaster_Success() throws Exception {
-		when(dao.addUserMaster(userMaster)).thenReturn(userMaster);
-		assertEquals(userMaster, dao.addUserMaster(userMaster));
+		this.setUp();
+		userMaster.setMobileNumber("mobileNumber101");
+		UserMaster actual = dao.addUserMaster(userMaster);
+		userId = actual.getUserId();
+		assertEquals("type", actual.getType());
 	}
 
 	/**
@@ -87,15 +92,13 @@ class UserMasterDaoImplTest {
 	 * @throws Exception
 	 */
 	@Test
-	final void testAddUserMaster_Failure() {
+	final void testAddUserMaster_Exception() {
+		UserMaster actual;
 		try {
-			when(dao.addUserMaster(userMaster)).thenThrow(new Exception("Exists"));
-			dao.addUserMaster(userMaster);
+			actual = dao.addUserMaster(userMaster);
 		} catch (Exception e) {
-			assertEquals("Exists", e.getMessage());
-			return;
+			assertTrue(true);
 		}
-		fail("Failure");
 	}
 
 	/**
@@ -103,19 +106,8 @@ class UserMasterDaoImplTest {
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#viewUserMaster(int)}.
 	 */
 	@Test
-	final void testViewUserMaster_Success() {
-		when(dao.viewUserMaster(userId)).thenReturn(userMaster);
-		assertEquals(userMaster, dao.viewUserMaster(userId));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.UserMasterDaoImpl#viewUserMaster(int)}.
-	 */
-	@Test
-	final void testViewUserMaster_Failure() {
-		when(dao.viewUserMaster(1)).thenReturn(null);
-		assertNull(dao.viewUserMaster(userId));
+	final void testViewUserMaster_Null() {
+		assertNull(dao.viewUserMaster(1000));
 	}
 
 	/**
@@ -126,8 +118,10 @@ class UserMasterDaoImplTest {
 	 */
 	@Test
 	final void testUpdateUserMaster_Success() throws Exception {
-		when(dao.updateUserMaster(userMaster)).thenReturn(userMaster);
-		assertEquals(userMaster, dao.updateUserMaster(userMaster));
+		this.setUp();
+		UserMaster u = dao.addUserMaster(userMaster);
+		u.setEmail("email1");
+		assertEquals("email", dao.updateUserMaster(userMaster).getEmail());
 	}
 
 	/**
@@ -137,15 +131,29 @@ class UserMasterDaoImplTest {
 	 * @throws Exception
 	 */
 	@Test
-	final void testUpdateUserMaster_Failure() {
+	final void testUpdateUserMaster_Exception() {
+		this.setUp();
+		userMaster.setUserId(1000);
+		userMaster.setEmail("email1");
 		try {
-			when(dao.updateUserMaster(userMaster)).thenThrow(new Exception("Not Exists"));
-			dao.updateUserMaster(userMaster);
+			assertEquals("email1", dao.updateUserMaster(userMaster));
 		} catch (Exception e) {
-			assertEquals("Not Exists", e.getMessage());
-			return;
+			assertEquals("UserMaster not Found", e.getMessage());
 		}
-		fail("failure");
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.comviva.col.dao.UserMasterDaoImpl#deleteUserMaster(int)}.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	final void testDeleteUserMaster_true() throws Exception {
+		this.setUp();
+		userMaster.setMobileNumber("989898981");
+		UserMaster u = dao.addUserMaster(userMaster);
+		assertTrue(dao.deleteUserMaster(u.getUserId()));
 	}
 
 	/**
@@ -153,29 +161,17 @@ class UserMasterDaoImplTest {
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#deleteUserMaster(int)}.
 	 */
 	@Test
-	final void testDeleteUserMaster_Success() {
-		when(dao.deleteUserMaster(userId)).thenReturn(true);
-		assertTrue(dao.deleteUserMaster(userId));
+	final void testDeleteUserMaster_false() {
+		assertFalse(dao.deleteUserMaster(10001));
 	}
 
 	/**
 	 * Test method for
-	 * {@link com.comviva.col.dao.UserMasterDaoImpl#deleteUserMaster(int)}.
+	 * {@link com.comviva.col.dao.UserMasterDaoImpl#viewAllByType(java.lang.String)}.
 	 */
 	@Test
-	final void testDeleteUserMaster_Failure() {
-		when(dao.deleteUserMaster(userId)).thenReturn(false);
-		assertFalse(dao.deleteUserMaster(userId));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.UserMasterDaoImpl#viewAllByType(int)}.
-	 */
-	@Test
-	final void testViewAllByType_Success() {
-		when(dao.viewAllByType(type)).thenReturn(list);
-		assertEquals(list.size(), dao.viewAllByType(type).size());
+	final void testViewAllByType() {
+		assertNotNull(dao.viewAllByType("type"));
 	}
 
 	/**
@@ -183,19 +179,9 @@ class UserMasterDaoImplTest {
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#getByMobileNumber(java.lang.String)}.
 	 */
 	@Test
-	final void testGetByMobileNumber_Success() {
-		when(dao.getByMobileNumber(mobileNumber)).thenReturn(userMaster);
-		assertEquals(userMaster, dao.getByMobileNumber(mobileNumber));
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.UserMasterDaoImpl#getByMobileNumber(java.lang.String)}.
-	 */
-	@Test
-	final void testGetByMobileNumber_Failure() {
-		when(dao.getByMobileNumber(mobileNumber)).thenReturn(null);
-		assertNull(dao.getByMobileNumber(mobileNumber));
+	final void testGetByMobileNumber() {
+		assertEquals("mobileNumber", dao.getByMobileNumber("mobileNumber").getMobileNumber());
+		;
 	}
 
 	/**
@@ -204,8 +190,10 @@ class UserMasterDaoImplTest {
 	 */
 	@Test
 	final void testUpdateWithoutCheckingForUserMaster() {
-		when(dao.updateWithoutCheckingForUserMaster(userMaster)).thenReturn(userMaster);
-		assertEquals(userMaster, dao.updateWithoutCheckingForUserMaster(userMaster));
+		this.setUp();
+		userMaster.setUserId(userId);
+		userMaster.setType("type1");
+		assertEquals("type1", dao.updateWithoutCheckingForUserMaster(userMaster).getType());
 	}
 
 	/**
@@ -214,8 +202,7 @@ class UserMasterDaoImplTest {
 	 */
 	@Test
 	final void testViewAllByByParentId() {
-		when(dao.viewAllByByParentId(parentId)).thenReturn(list);
-		assertEquals(list.size(), dao.viewAllByByParentId(parentId).size());
+		assertEquals(2, dao.viewAllByByParentId(2).get(0).getParentId());
 	}
 
 }

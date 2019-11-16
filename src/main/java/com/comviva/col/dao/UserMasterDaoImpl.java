@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -23,6 +24,10 @@ import com.comviva.col.repository.UserMasterRepository;
  */
 @Component
 public class UserMasterDaoImpl implements IUserMasterDao {
+
+	private static final String USER_FOUND_WITH_ID = "User found with id = ";
+
+	private static final String USER_NOT_FOUND_WITH_ID = "User not found with id = ";
 
 	private static final String VIEW_BY_TYPE = "from %s where type = :type";
 
@@ -49,9 +54,9 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws Exception {
-		if (exists(userMaster.getUserId())) {
+		if (existsByMobileNumber(userMaster.getMobileNumber())) {
 			log.error(userMaster + "already exists.");
-			throw new Exception("User Master with id " + userMaster.getUserId() + " exists.");
+			throw new Exception("User Master with mobile number " + userMaster.getMobileNumber() + " exists.");
 		}
 		log.info("User found with id " + userMaster.getUserId());
 		return userMasterRepository.save(userMaster);
@@ -62,10 +67,10 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	public UserMaster viewUserMaster(int id) {
 		Optional<UserMaster> userMaster = userMasterRepository.findById(id);
 		if (userMaster.isPresent()) {
-			log.info("User found with id = " + id);
+			log.info(UserMasterDaoImpl.USER_FOUND_WITH_ID + id);
 			return userMaster.get();
 		}
-		log.error("User not found with id = " + id);
+		log.error(UserMasterDaoImpl.USER_NOT_FOUND_WITH_ID + id);
 		return null;
 	}
 
@@ -75,7 +80,7 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 			log.info("Updating the user record for id = " + userMaster.getUserId());
 			return userMasterRepository.save(userMaster);
 		}
-		log.error("User not found with id = " + userMaster.getUserId());
+		log.error(UserMasterDaoImpl.USER_NOT_FOUND_WITH_ID + userMaster.getUserId());
 		throw new Exception("UserMaster not Found");
 	}
 
@@ -90,7 +95,7 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 			log.info("User deleted with id = " + id);
 			return true;
 		}
-		log.error("User not found with id = " + id);
+		log.error(UserMasterDaoImpl.USER_NOT_FOUND_WITH_ID + id);
 		return false;
 	}
 
@@ -113,6 +118,16 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 		if (mobileNumber != null)
 			query.setParameter("cellNo", mobileNumber);
 		return (UserMaster) query.getSingleResult();
+	}
+
+	private boolean existsByMobileNumber(String mobileNumber) {
+		boolean flag;
+		try {
+			this.getByMobileNumber(mobileNumber);
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
 	}
 
 	@Override

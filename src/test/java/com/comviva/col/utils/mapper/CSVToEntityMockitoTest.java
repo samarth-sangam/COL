@@ -24,7 +24,7 @@ import com.comviva.col.utils.dto.ActivationReportDto;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-class CSVToEntityTest {
+class CSVToEntityMockitoTest {
 
 	private static final String NO_FILE_FOUND = "NO FILE FOUND";
 
