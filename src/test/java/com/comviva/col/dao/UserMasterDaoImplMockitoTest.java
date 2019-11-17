@@ -54,16 +54,6 @@ class UserMasterDaoImplMockitoTest {
 
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.dao.UserMasterDaoImpl#addAllUserMaster(java.util.List)}.
-	 */
-	@Test
-	final void testAddAllUserMaster_Success() {
-		when(dao.addAllUserMaster(list)).thenReturn(list);
-		assertEquals(list.size(), dao.addAllUserMaster(list).size());
-
-	}
 
 	/**
 	 * Test method for

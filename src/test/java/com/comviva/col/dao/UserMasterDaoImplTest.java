@@ -60,18 +60,6 @@ class UserMasterDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link com.comviva.col.dao.UserMasterDaoImpl#addAllUserMaster(java.util.List)}.
-	 */
-	@Test
-	final void testAddAllUserMaster() {
-		this.setUp();
-		List<UserMaster> actual = dao.addAllUserMaster(list);
-		userId = actual.get(0).getUserId();
-		assertEquals(1, actual.size());
-	}
-
-	/**
-	 * Test method for
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#addUserMaster(com.comviva.col.entity.UserMaster)}.
 	 * 
 	 * @throws Exception

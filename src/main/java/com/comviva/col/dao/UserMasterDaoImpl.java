@@ -45,12 +45,6 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 
 	private Logger log = Logger.getLogger(UserMasterDaoImpl.class);
 
-	@Override
-	public List<UserMaster> addAllUserMaster(List<UserMaster> list) {
-		log.info("Adding users in bulk");
-		return userMasterRepository.saveAll(list);
-
-	}
 
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws Exception {
