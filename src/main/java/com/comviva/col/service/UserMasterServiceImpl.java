@@ -72,12 +72,6 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	}
 
 	@Override
-	public String addAllUserMaster(List<UserMaster> list) {
-		userMasterDao.addAllUserMaster(list);
-		return "All Added";
-	}
-
-	@Override
 	public UserMaster viewUserMaster(int id) throws NotFoundException, InvalidPasswordException {
 		UserMaster userMaster = userMasterDao.viewUserMaster(id);
 

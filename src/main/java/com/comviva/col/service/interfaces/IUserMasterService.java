@@ -24,13 +24,6 @@ public interface IUserMasterService {
 	 */
 	UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException;
 
-	/**
-	 * All List of UserMaster entities.
-	 * 
-	 * @param list
-	 * @return
-	 */
-	String addAllUserMaster(List<UserMaster> list);
 
 	/**
 	 * View UserMaster by id.

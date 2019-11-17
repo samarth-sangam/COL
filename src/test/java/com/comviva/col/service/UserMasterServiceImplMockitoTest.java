@@ -94,15 +94,6 @@ class UserMasterServiceImplMockitoTest {
 		}
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.UserMasterServiceImpl#addAllUserMaster(java.util.List)}.
-	 */
-	@Test
-	final void testAddAllUserMaster() {
-		when(service.addAllUserMaster(list)).thenReturn("Added");
-		assertEquals("Added", service.addAllUserMaster(list));
-	}
 
 	/**
 	 * Test method for

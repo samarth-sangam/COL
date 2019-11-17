@@ -181,7 +181,6 @@ class UserMasterDaoImplTest {
 	@Test
 	final void testGetByMobileNumber() {
 		assertEquals("mobileNumber", dao.getByMobileNumber("mobileNumber").getMobileNumber());
-		;
 	}
 
 	/**

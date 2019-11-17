@@ -38,9 +38,6 @@ class ActivationReportServiceImplTest {
 
 	private List<ActivationReportDto> list = new ArrayList<>();
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	void setUp() {
 		dto = new ActivationReportDto();
 		dto.setActiType("actiType");
