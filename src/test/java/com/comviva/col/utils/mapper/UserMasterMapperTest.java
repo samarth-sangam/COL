@@ -39,7 +39,20 @@ class UserMasterMapperTest {
 	void setUp() throws Exception {
 		entity.setUserId(userId);
 		entity.setMobileNumber(mobileNumber);
+		entity.setEmail("email");
+		entity.setLocation("location");
+		entity.setParentId(1);
+		entity.setPassword("password");
+		entity.setType("type");
+		entity.setUsername("username");
+
 		dto.setMobileNumber(mobileNumber);
+		dto.setEmail("email");
+		dto.setLocation("location");
+		dto.setParentId(1);
+		dto.setPassword("password");
+		dto.setType("type");
+		dto.setUsername("username");
 
 	}
 

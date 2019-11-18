@@ -3,6 +3,8 @@ package com.comviva.col.utils.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +33,30 @@ class ActivationReportMapperMockitoTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		entity.setAgentCode("100");
+		entity.setActiType("actiType");
+		entity.setActivationDate(LocalDate.now());
+		entity.setAmount("amount");
+		entity.setCategory("category");
+		entity.setExternalId("externalId");
+		entity.setIncentive("incentive");
+		entity.setMobileNumber("mobileNumber");
+		entity.setMonth("month");
+		entity.setName("name");
+		entity.setScheme("scheme");
+		entity.setStatus('y');
+		entity.setTrId(1);
+
 		dto.setAgentCode("100");
+		dto.setActivationDate(LocalDate.now());
+		dto.setAmount("amount");
+		dto.setCategory("category");
+		dto.setExternalId("externalId");
+		dto.setIncentive("incentive");
+		dto.setMobileNumber("mobileNumber");
+		dto.setMonth("month");
+		dto.setName("name");
+		dto.setScheme("scheme");
+		dto.setStatus('y');
 	}
 
 	/**

@@ -24,6 +24,8 @@ public class ActivationReportDto {
 
 	private String scheme;
 
+	private String amount;
+
 	private String incentive;
 
 	private String category;
@@ -136,6 +138,14 @@ public class ActivationReportDto {
 		this.status = status;
 	}
 
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
 	public static class ActivationReportBuilder {
 
 		String month;
@@ -157,6 +167,8 @@ public class ActivationReportDto {
 		String category;
 
 		String actiType;
+
+		String amount;
 
 		Character status;
 
@@ -187,6 +199,11 @@ public class ActivationReportDto {
 
 		public ActivationReportBuilder setName(String name) {
 			this.name = name;
+			return this;
+		}
+
+		public ActivationReportBuilder setAmount(String amount) {
+			this.amount = amount;
 			return this;
 		}
 

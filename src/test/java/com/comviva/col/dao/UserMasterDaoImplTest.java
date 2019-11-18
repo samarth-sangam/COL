@@ -107,9 +107,10 @@ class UserMasterDaoImplTest {
 	@Test
 	final void testUpdateUserMaster_Success() throws Exception {
 		this.setUp();
+		userMaster.setMobileNumber("895186549");
 		UserMaster u = dao.addUserMaster(userMaster);
 		u.setEmail("email1");
-		assertEquals("email", dao.updateUserMaster(userMaster).getEmail());
+		assertEquals("email1", dao.updateUserMaster(u).getEmail());
 	}
 
 	/**
@@ -165,30 +166,44 @@ class UserMasterDaoImplTest {
 	/**
 	 * Test method for
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#getByMobileNumber(java.lang.String)}.
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-	final void testGetByMobileNumber() {
-		assertEquals("mobileNumber", dao.getByMobileNumber("mobileNumber").getMobileNumber());
+	final void testGetByMobileNumber() throws Exception {
+		this.setUp();
+		userMaster.setMobileNumber("123456789");
+		dao.addUserMaster(userMaster);
+		assertEquals("123456789", dao.getByMobileNumber("123456789").getMobileNumber());
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#updateWithoutCheckingForUserMaster(com.comviva.col.entity.UserMaster)}.
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-	final void testUpdateWithoutCheckingForUserMaster() {
+	final void testUpdateWithoutCheckingForUserMaster() throws Exception {
 		this.setUp();
-		userMaster.setUserId(userId);
+		userMaster.setMobileNumber("988695213");
 		userMaster.setType("type1");
-		assertEquals("type1", dao.updateWithoutCheckingForUserMaster(userMaster).getType());
+		UserMaster u = dao.addUserMaster(userMaster);
+		u.setType("type");
+		assertEquals("type", dao.updateWithoutCheckingForUserMaster(u).getType());
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.comviva.col.dao.UserMasterDaoImpl#viewAllByByParentId(int)}.
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-	final void testViewAllByByParentId() {
+	final void testViewAllByByParentId() throws Exception {
+		this.setUp();
+		userMaster.setMobileNumber("newMobileNo");
+		dao.addUserMaster(userMaster);
 		assertEquals(2, dao.viewAllByByParentId(2).get(0).getParentId());
 	}
 
