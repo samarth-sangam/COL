@@ -11,4 +11,5 @@ import com.comviva.col.entity.AuthUser;
  */
 public interface AuthUserRepository extends JpaRepository<AuthUser, Integer> {
 	AuthUser findByUsername(String username);
+	boolean existsByRole(String role);
 }

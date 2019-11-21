@@ -35,8 +35,7 @@ public class UserMasterRestController {
 	@Autowired
 	private IUserMasterService userMasterService;
 
-	@Autowired
-	private UserMasterMapper mapper;
+	private UserMasterMapper mapper = new UserMasterMapper();
 
 	private Logger log = Logger.getLogger(UserMasterRestController.class);
 

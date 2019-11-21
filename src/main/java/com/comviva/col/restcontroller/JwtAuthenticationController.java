@@ -13,13 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.comviva.col.entity.UserMaster;
+import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
+import com.comviva.col.exceptions.UnauthorizedException;
+import com.comviva.col.repository.AuthUserRepository;
 import com.comviva.col.security.JwtResponse;
 import com.comviva.col.service.JwtUserDetailsService;
 import com.comviva.col.service.interfaces.IUserMasterService;
 import com.comviva.col.utils.JwtTokenUtil;
 import com.comviva.col.utils.dto.JwtRequest;
+import com.comviva.col.utils.dto.UserMasterDto;
+import com.comviva.col.utils.mapper.UserMasterMapper;
 
 /**
  * JWT Authentication Controller.
@@ -42,6 +47,11 @@ public class JwtAuthenticationController {
 
 	@Autowired
 	private IUserMasterService userMasterService;
+
+	private UserMasterMapper mapper = new UserMasterMapper();
+
+	@Autowired
+	private AuthUserRepository repository;
 
 	/**
 	 * REST api to authenticate and create JWT Token.
@@ -103,10 +113,19 @@ public class JwtAuthenticationController {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
+			throw new Exception(e);
 		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
+			throw new Exception(e);
 		}
+	}
+
+	@PostMapping(value = "/register")
+	public ResponseEntity<?> saveUser(@RequestBody UserMasterDto user)
+			throws UnauthorizedException, DuplicateException {
+		if (repository.existsByRole("ADMIN")) {
+			throw new UnauthorizedException("ADMIN exists, Cannot create anymore Admin");
+		}
+		return ResponseEntity.ok(userMasterService.addUserMaster(mapper.toEntity(user)));
 	}
 
 }

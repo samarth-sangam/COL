@@ -4,13 +4,9 @@
 package com.comviva.col.utils.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import com.comviva.col.entity.UserMaster;
 import com.comviva.col.utils.dto.UserMasterDto;
@@ -19,10 +15,9 @@ import com.comviva.col.utils.dto.UserMasterDto;
  * @author samarth.sangam
  *
  */
-@RunWith(MockitoJUnitRunner.class)
 class UserMasterMapperTest {
 
-	private UserMasterMapper mapper = Mockito.mock(UserMasterMapper.class);
+	private UserMasterMapper mapper = new UserMasterMapper();
 
 	private UserMaster entity = new UserMaster();
 
@@ -62,8 +57,14 @@ class UserMasterMapperTest {
 	 */
 	@Test
 	final void testToEntityUserMasterDto() {
-		when(mapper.toEntity(dto)).thenReturn(entity);
-		assertEquals(entity, mapper.toEntity(dto));
+		UserMaster actual = mapper.toEntity(dto);
+		assertEquals(entity.getEmail(), actual.getEmail());
+		assertEquals(entity.getLocation(), actual.getLocation());
+		assertEquals(entity.getMobileNumber(), actual.getMobileNumber());
+		assertEquals(entity.getParentId(), actual.getParentId());
+		assertEquals(entity.getPassword(), actual.getPassword());
+		assertEquals(entity.getType(), actual.getType());
+		assertEquals(entity.getUsername(), actual.getUsername());
 	}
 
 	/**
@@ -72,8 +73,14 @@ class UserMasterMapperTest {
 	 */
 	@Test
 	final void testToDto() {
-		when(mapper.toDto(entity)).thenReturn(dto);
-		assertEquals(dto, mapper.toDto(entity));
+		UserMasterDto actual = mapper.toDto(entity);
+		assertEquals(dto.getEmail(), actual.getEmail());
+		assertEquals(dto.getLocation(), actual.getLocation());
+		assertEquals(dto.getMobileNumber(), actual.getMobileNumber());
+		assertEquals(dto.getParentId(), actual.getParentId());
+		assertEquals(dto.getPassword(), actual.getPassword());
+		assertEquals(dto.getType(), actual.getType());
+		assertEquals(dto.getUsername(), actual.getUsername());
 	}
 
 	/**
@@ -82,8 +89,15 @@ class UserMasterMapperTest {
 	 */
 	@Test
 	final void testToEntityUserMasterDtoInt() {
-		when(mapper.toEntity(dto, userId)).thenReturn(entity);
-		assertEquals(entity, mapper.toEntity(dto, userId));
+		UserMaster actual = mapper.toEntity(dto, userId);
+		assertEquals(entity.getEmail(), actual.getEmail());
+		assertEquals(entity.getLocation(), actual.getLocation());
+		assertEquals(entity.getMobileNumber(), actual.getMobileNumber());
+		assertEquals(entity.getParentId(), actual.getParentId());
+		assertEquals(entity.getPassword(), actual.getPassword());
+		assertEquals(entity.getType(), actual.getType());
+		assertEquals(entity.getUsername(), actual.getUsername());
+		assertEquals(userId, actual.getUserId());
 	}
 
 }

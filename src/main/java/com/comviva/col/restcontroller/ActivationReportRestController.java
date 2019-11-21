@@ -37,8 +37,7 @@ public class ActivationReportRestController {
 	@Autowired
 	private IActivationReportService activationReportService;
 
-	@Autowired
-	private ActivationReportMapper mapper;
+	private ActivationReportMapper mapper = new ActivationReportMapper();
 
 	private Logger log = Logger.getLogger(ActivationReportRestController.class);
 

@@ -38,13 +38,12 @@ public class UserMasterServiceImpl implements IUserMasterService {
 
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
-		addAuthUserWithMobileNumber(userMaster);
 		String password = userMaster.getPassword();
 		userMaster.setPassword(PasswordEncryption.encrypt(password));
 		try {
 			log.info("user found.");
 			UserMaster addedUserMaster = userMasterDao.addUserMaster(userMaster);
-
+			addAuthUserWithMobileNumber(userMaster, password);
 			addAuthUserWithUserId(addedUserMaster, password);
 			return addedUserMaster;
 		} catch (Exception e) {
@@ -62,9 +61,9 @@ public class UserMasterServiceImpl implements IUserMasterService {
 
 	}
 
-	private void addAuthUserWithMobileNumber(UserMaster userMaster) {
+	private void addAuthUserWithMobileNumber(UserMaster userMaster, String password) {
 		AuthUserDto dto = new AuthUserDto();
-		dto.setPassword(userMaster.getPassword());
+		dto.setPassword(password);
 		dto.setUsername(userMaster.getMobileNumber());
 		dto.setRole(userMaster.getType());
 		jwtService.save(dto);
