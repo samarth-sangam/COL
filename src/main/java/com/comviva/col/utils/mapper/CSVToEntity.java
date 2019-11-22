@@ -4,10 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -48,16 +49,16 @@ public class CSVToEntity {
 		Pattern pattern = Pattern.compile(",");
 		try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
 			return in.lines().skip(1).map(line -> {
-				String[] x = pattern.split(line);
-				for(String str : x) {
-					if(str.equals("")) {
-						return null;
-					}
+				if (line.startsWith(",") || line.contains(",,") || line.endsWith(".")) {
+					return null;
 				}
-				return new ActivationReportDto.ActivationReportBuilder().setMonth(x[0])
-						.setActivationDate(LocalDate.parse(x[1], DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+				String[] x = pattern.split(line);
+				return new ActivationReportDto.ActivationReportBuilder().setTrId(UUID.randomUUID().toString())
+						.setMonth(x[0])
+						.setActivationDate(
+								LocalDateTime.parse(x[1], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))
 						.setAgentCode(x[2]).setExternalId(x[3]).setMobileNumber(x[4]).setName(x[5]).setScheme(x[6])
-						.setIncentive(x[7]).setCategory(x[8]).setActiType(x[9]).setStatus('y').build();
+						.setIncentive(x[7]).setCategory(x[8]).setActiType(x[9]).setStatus('y').setAmount(x[10]).build();
 			}).collect(Collectors.toList()).stream().filter(Objects::nonNull).collect(Collectors.toList());
 		}
 	}

@@ -2,7 +2,8 @@ package com.comviva.col.utils.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,8 @@ class ActivationReportMapperTest {
 		entity = new ActivationReport();
 		entity.setAgentCode("100");
 		entity.setActiType("actiType");
-		entity.setActivationDate(LocalDate.now());
+		LocalDateTime now = LocalDateTime.now();
+		entity.setActivationDate(now);
 		entity.setAmount("amount");
 		entity.setCategory("category");
 		entity.setExternalId("externalId");
@@ -40,11 +42,11 @@ class ActivationReportMapperTest {
 		entity.setName("name");
 		entity.setScheme("scheme");
 		entity.setStatus('y');
-		entity.setTrId(1);
+		entity.setTrId(UUID.randomUUID().toString());
 
 		dto = new ActivationReportDto();
 		dto.setAgentCode("100");
-		dto.setActivationDate(LocalDate.now());
+		dto.setActivationDate(now);
 		dto.setAmount("amount");
 		dto.setActiType("actiType");
 		dto.setCategory("category");

@@ -4,6 +4,7 @@
 package com.comviva.col.dao;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,7 +54,6 @@ class UserMasterDaoImplMockitoTest {
 		list.add(userMaster);
 
 	}
-
 
 	/**
 	 * Test method for
@@ -127,7 +127,7 @@ class UserMasterDaoImplMockitoTest {
 			when(dao.updateUserMaster(userMaster)).thenThrow(new Exception("Not Exists"));
 			dao.updateUserMaster(userMaster);
 		} catch (Exception e) {
-			assertEquals("Not Exists", e.getMessage());
+			assertNotNull(e);
 			return;
 		}
 	}

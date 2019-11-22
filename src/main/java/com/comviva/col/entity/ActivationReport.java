@@ -1,12 +1,15 @@
 package com.comviva.col.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+
+import com.comviva.col.entity.id.ActivationReportId;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * 
@@ -14,20 +17,22 @@ import javax.persistence.Id;
  * @author samarth.sangam, mahendra.prajapati
  *
  */
+@JsonInclude(Include.NON_NULL)
 @Entity(name = "COL_ACTIVATION_REPORT")
+@IdClass(ActivationReportId.class)
 public class ActivationReport {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "tr_id")
-	int trId;
+	String trId;
 
 	@Column(name = "month")
 	String month;
 
+	@Id
 	@Column(name = "activation_date")
-	LocalDate activationDate;
+	LocalDateTime activationDate;
 
+	@Id
 	@Column(name = "agent_code")
 	String agentCode;
 
@@ -58,11 +63,11 @@ public class ActivationReport {
 	@Column(name = "status")
 	Character status;
 
-	public int getTrId() {
+	public String getTrId() {
 		return trId;
 	}
 
-	public void setTrId(int trId) {
+	public void setTrId(String trId) {
 		this.trId = trId;
 	}
 
@@ -74,11 +79,11 @@ public class ActivationReport {
 		this.month = month;
 	}
 
-	public LocalDate getActivationDate() {
+	public LocalDateTime getActivationDate() {
 		return activationDate;
 	}
 
-	public void setActivationDate(LocalDate activationDate) {
+	public void setActivationDate(LocalDateTime activationDate) {
 		this.activationDate = activationDate;
 	}
 

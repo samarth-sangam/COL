@@ -24,7 +24,6 @@ public interface IUserMasterService {
 	 */
 	UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException;
 
-
 	/**
 	 * View UserMaster by id.
 	 * 

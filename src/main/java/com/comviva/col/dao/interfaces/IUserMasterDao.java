@@ -12,7 +12,6 @@ import com.comviva.col.entity.UserMaster;
  */
 public interface IUserMasterDao {
 
-
 	/**
 	 * Add UserMaster.
 	 * 

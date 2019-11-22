@@ -19,7 +19,7 @@ public interface IActivationReportDao {
 	 * @param list
 	 * @return
 	 */
-	List<ActivationReport> addAllActivationReport(List<ActivationReport> list);
+	int addAllActivationReport(List<ActivationReport> list);
 
 	/**
 	 * View Activation Reports of AgentCode from a particular date to a particular
@@ -29,7 +29,9 @@ public interface IActivationReportDao {
 	 * @param toDate
 	 * @param externalId
 	 * @return
+	 * @throws Exception
 	 */
-	List<ActivationReport> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String externalId);
+	List<ActivationReport> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String externalId)
+			throws Exception;
 
 }

@@ -1,6 +1,9 @@
 package com.comviva.col.utils.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * ActivationReport Data transfer Object.
@@ -8,11 +11,14 @@ import java.time.LocalDate;
  * @author samarth.sangam
  *
  */
+@JsonInclude(Include.NON_NULL)
 public class ActivationReportDto {
+
+	String trId;
 
 	private String month;
 
-	private LocalDate activationDate;
+	private LocalDateTime activationDate;
 
 	private String agentCode;
 
@@ -35,6 +41,7 @@ public class ActivationReportDto {
 	private Character status;
 
 	private ActivationReportDto(ActivationReportBuilder builder) {
+		this.trId = builder.trId;
 		this.month = builder.month;
 		this.actiType = builder.actiType;
 		this.activationDate = builder.activationDate;
@@ -44,10 +51,19 @@ public class ActivationReportDto {
 		this.incentive = builder.incentive;
 		this.mobileNumber = builder.mobileNumber;
 		this.name = builder.name;
+		this.amount = builder.amount;
 		this.status = builder.status;
 	}
 
 	public ActivationReportDto() {
+	}
+
+	public String getTrId() {
+		return trId;
+	}
+
+	public void setTrId(String trId) {
+		this.trId = trId;
 	}
 
 	public String getMonth() {
@@ -58,11 +74,11 @@ public class ActivationReportDto {
 		this.month = month;
 	}
 
-	public LocalDate getActivationDate() {
+	public LocalDateTime getActivationDate() {
 		return activationDate;
 	}
 
-	public void setActivationDate(LocalDate activationDate) {
+	public void setActivationDate(LocalDateTime activationDate) {
 		this.activationDate = activationDate;
 	}
 
@@ -148,9 +164,11 @@ public class ActivationReportDto {
 
 	public static class ActivationReportBuilder {
 
+		String trId;
+
 		String month;
 
-		LocalDate activationDate;
+		LocalDateTime activationDate;
 
 		String agentCode;
 
@@ -172,12 +190,17 @@ public class ActivationReportDto {
 
 		Character status;
 
+		public ActivationReportBuilder setTrId(String trId) {
+			this.trId = trId;
+			return this;
+		}
+
 		public ActivationReportBuilder setMonth(String month) {
 			this.month = month;
 			return this;
 		}
 
-		public ActivationReportBuilder setActivationDate(LocalDate activationDate) {
+		public ActivationReportBuilder setActivationDate(LocalDateTime activationDate) {
 			this.activationDate = activationDate;
 			return this;
 		}

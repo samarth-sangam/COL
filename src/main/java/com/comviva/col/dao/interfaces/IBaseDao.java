@@ -11,5 +11,5 @@ import java.util.List;
  * @param <T>
  */
 public interface IBaseDao<T> {
-	List<T> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String agentCode, String table);
+	List<T> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String agentCode, String table) throws Exception;
 }

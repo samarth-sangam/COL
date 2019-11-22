@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.comviva.col.entity.ActivationReport;
+import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.utils.dto.ActivationReportDto;
 
@@ -20,8 +21,9 @@ public interface IActivationReportService {
 	 * 
 	 * @param list
 	 * @return
+	 * @throws DuplicateException
 	 */
-	List<ActivationReport> addAllActivationReport(List<ActivationReportDto> list);
+	void addAllActivationReport(List<ActivationReportDto> list) throws DuplicateException;
 
 	/**
 	 * View List of ActivationReports added between fromDate and toDate by Agent
@@ -32,7 +34,8 @@ public interface IActivationReportService {
 	 * @param agentCode
 	 * @return
 	 * @throws NotFoundException
+	 * @throws Exception
 	 */
 	List<ActivationReport> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String agentCode)
-			throws NotFoundException;
+			throws NotFoundException, Exception;
 }

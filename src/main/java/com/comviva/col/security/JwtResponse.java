@@ -3,12 +3,16 @@ package com.comviva.col.security;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * Login Response Objects.
  * 
  * @author samarth.sangam
  *
  */
+@JsonInclude(Include.NON_NULL)
 public class JwtResponse implements Serializable {
 
 	private static final long serialVersionUID = -8091879091924046844L;

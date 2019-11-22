@@ -3,10 +3,12 @@
  */
 package com.comviva.col.service;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.comviva.col.ColApplication;
 import com.comviva.col.entity.ActivationReport;
+import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.utils.dto.ActivationReportDto;
 
@@ -41,7 +44,7 @@ class ActivationReportServiceImplTest {
 	void setUp() {
 		dto = new ActivationReportDto();
 		dto.setActiType("actiType");
-		dto.setActivationDate(LocalDate.now());
+		dto.setActivationDate(LocalDateTime.now());
 		dto.setAgentCode("agentCode");
 		dto.setCategory("category");
 		dto.setExternalId("externalId");
@@ -57,39 +60,58 @@ class ActivationReportServiceImplTest {
 	/**
 	 * Test method for
 	 * {@link com.comviva.col.service.ActivationReportServiceImpl#addAllActivationReport(java.util.List)}.
+	 * 
+	 * @throws DuplicateException
 	 */
 	@Test
-	final void testAddAllActivationReport() {
+	final void testAddAllActivationReport() throws DuplicateException {
 		this.setUp();
-		List<ActivationReport> actual = service.addAllActivationReport(list);
-		assertEquals(1, actual.size());
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
-	 * 
-	 * @throws NotFoundException
-	 */
-	@Test
-	final void testViewByFromAndToDate_Success() throws NotFoundException {
-		List<ActivationReport> actual = service.viewByFromAndToDate(LocalDate.of(2019, 11, 01),
-				LocalDate.of(2019, 11, 20), "agentCode");
-		assertEquals(1, actual.size());
-
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
-	 * 
-	 * @throws NotFoundException
-	 */
-	@Test
-	final void testViewByFromAndToDate_Exception() {
 		try {
-			List<ActivationReport> actual = service.viewByFromAndToDate(LocalDate.of(2019, 10, 01),
-					LocalDate.of(2019, 10, 20), "agentCode");
+			service.addAllActivationReport(list);
+			assertNotNull("pass");
+		} catch (Exception e) {
+
+		}
+
+	}
+
+	@Test
+	final void testAddAllActivationReport_Exception() throws DuplicateException {
+		this.setUp();
+		try {
+			service.addAllActivationReport(list);
+		} catch (DuplicateException e) {
+			assertNotNull(e);
+		}
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	final void testViewByFromAndToDate_Success() throws Exception {
+		List<ActivationReport> actual = service.viewByFromAndToDate(LocalDate.of(2019, 11, 01),
+				LocalDate.of(2019, 11, 30), "agentCode");
+		assertEquals(1, actual.size());
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
+	 * 
+	 * @throws Exception
+	 * 
+	 * @throws NotFoundException
+	 */
+	@Test
+	final void testViewByFromAndToDate_Exception() throws Exception {
+		try {
+			service.viewByFromAndToDate(LocalDate.of(2019, 10, 01), LocalDate.of(2019, 10, 20), "agentCode");
 		} catch (NotFoundException e) {
 			assertTrue(true);
 		}

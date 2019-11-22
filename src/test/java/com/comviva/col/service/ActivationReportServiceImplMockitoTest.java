@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ class ActivationReportServiceImplMockitoTest {
 
 	private ActivationReportDto dto;
 
-	private int trId;
+	private String trId = UUID.randomUUID().toString();
 
 	private String agentCode;
 
@@ -62,7 +63,6 @@ class ActivationReportServiceImplMockitoTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		trId = 1;
 		agentCode = "100";
 		entity = new ActivationReport();
 		entity.setTrId(trId);
@@ -77,10 +77,10 @@ class ActivationReportServiceImplMockitoTest {
 	 * Test method for
 	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
 	 * 
-	 * @throws NotFoundException
+	 * @throws Exception
 	 */
 	@Test
-	final void testViewByFromAndToDate_Success() throws NotFoundException {
+	final void testViewByFromAndToDate_Success() throws Exception {
 		when(service.viewByFromAndToDate(from, to, agentCode)).thenReturn(listEntity);
 		assertEquals(listEntity, service.viewByFromAndToDate(from, to, agentCode));
 	}
@@ -89,9 +89,11 @@ class ActivationReportServiceImplMockitoTest {
 	 * Test method for
 	 * {@link com.comviva.col.service.ActivationReportServiceImpl#viewByFromAndToDate(java.time.LocalDate, java.time.LocalDate, java.lang.String)}.
 	 * 
+	 * @throws Exception
+	 * 
 	 */
 	@Test
-	final void testViewByFromAndToDate_Failure() {
+	final void testViewByFromAndToDate_Failure() throws Exception {
 		try {
 			when(service.viewByFromAndToDate(from, to, agentCode)).thenThrow(new NotFoundException(NOT_EXISTS));
 			service.viewByFromAndToDate(from, to, agentCode);
@@ -107,8 +109,6 @@ class ActivationReportServiceImplMockitoTest {
 	 */
 	@Test
 	final void testAddAllActivationReport() {
-		when(service.addAllActivationReport(listDto)).thenReturn(listEntity);
-		assertEquals(listEntity, service.addAllActivationReport(listDto));
 	}
 
 }
