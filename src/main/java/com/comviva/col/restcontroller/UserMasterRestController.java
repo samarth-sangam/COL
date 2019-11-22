@@ -51,7 +51,7 @@ public class UserMasterRestController {
 	@PostMapping(value = "/userMaster", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addUserMaster(@RequestBody UserMasterDto userMaster) throws DuplicateException {
 		log.info("Url pattern /api/v1/userMaster/userMaster invoked for adding new user.");
-		return ResponseEntity.ok(userMasterService.addUserMaster(mapper.toEntity(userMaster)));
+		return ResponseEntity.ok(mapper.toResponse(userMasterService.addUserMaster(mapper.toEntity(userMaster))));
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class UserMasterRestController {
 	@GetMapping(value = "/userMaster/{id}")
 	public ResponseEntity<?> getUserMaster(@PathVariable int id) throws NotFoundException, InvalidPasswordException {
 		log.info("Url pattern /api/v1/userMaster/" + id + " invoked quering for user with id(" + id + ")");
-		return ResponseEntity.ok(userMasterService.viewByIdWithoutCheckingPassword(id));
+		return ResponseEntity.ok(mapper.toResponse(userMasterService.viewByIdWithoutCheckingPassword(id)));
 	}
 
 	/**
@@ -100,7 +100,8 @@ public class UserMasterRestController {
 	public ResponseEntity<?> updateUserMaster(@RequestBody UserMasterDto userMasterDto, @PathVariable int id)
 			throws NotFoundException {
 		log.info("Url pattern /api/v1/userMaster/" + id + " invoked for updating.");
-		return ResponseEntity.ok(userMasterService.updateUserMaster(mapper.toEntity(userMasterDto, id)));
+		return ResponseEntity
+				.ok(mapper.toResponse(userMasterService.updateUserMaster(mapper.toEntity(userMasterDto, id))));
 	}
 
 	/**

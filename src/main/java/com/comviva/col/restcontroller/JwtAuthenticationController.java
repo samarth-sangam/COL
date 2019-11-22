@@ -8,6 +8,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,13 +19,13 @@ import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.exceptions.UnauthorizedException;
 import com.comviva.col.repository.AuthUserRepository;
-import com.comviva.col.security.JwtResponse;
 import com.comviva.col.service.JwtUserDetailsService;
 import com.comviva.col.service.interfaces.IUserMasterService;
 import com.comviva.col.utils.JwtTokenUtil;
 import com.comviva.col.utils.dto.JwtRequest;
 import com.comviva.col.utils.dto.UserMasterDto;
 import com.comviva.col.utils.mapper.UserMasterMapper;
+import com.comviva.col.utils.responseobjects.JwtResponse;
 
 /**
  * JWT Authentication Controller.
@@ -99,6 +100,8 @@ public class JwtAuthenticationController {
 		response.setType(userMaster.getType());
 		response.setPasswordChangeDate(userMaster.getPasswordChangeDate());
 		response.setLocation(userMaster.getLocation());
+		response.setUsername(userMaster.getUsername());
+		response.setEmail(userMaster.getEmail());
 		return response;
 	}
 
@@ -126,6 +129,11 @@ public class JwtAuthenticationController {
 			throw new UnauthorizedException("ADMIN exists, Cannot create anymore Admin");
 		}
 		return ResponseEntity.ok(userMasterService.addUserMaster(mapper.toEntity(user)));
+	}
+
+	@GetMapping(value = "/hello")
+	public String hello() {
+		return "Hello Https";
 	}
 
 }

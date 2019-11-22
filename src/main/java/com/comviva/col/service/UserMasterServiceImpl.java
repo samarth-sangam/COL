@@ -38,11 +38,12 @@ public class UserMasterServiceImpl implements IUserMasterService {
 
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
+		System.out.println(userMaster);
 		String password = userMaster.getPassword();
 		userMaster.setPassword(PasswordEncryption.encrypt(password));
 		try {
-			log.info("user found.");
 			UserMaster addedUserMaster = userMasterDao.addUserMaster(userMaster);
+			log.debug("User Added with user Id " + addedUserMaster.getUserId());
 			addAuthUserWithMobileNumber(userMaster, password);
 			addAuthUserWithUserId(addedUserMaster, password);
 			return addedUserMaster;
@@ -102,6 +103,7 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	@Override
 	public UserMaster updateUserMaster(UserMaster userMaster) throws NotFoundException {
 		try {
+			userMaster.setPassword(PasswordEncryption.encrypt(userMaster.getPassword()));
 			return userMasterDao.updateUserMaster(userMaster);
 		} catch (Exception e) {
 			throw new NotFoundException("UserMaster with id " + userMaster.getUserId() + ".");

@@ -48,10 +48,10 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	private Logger log = Logger.getLogger(UserMasterDaoImpl.class);
 
 	@Override
-	public UserMaster addUserMaster(UserMaster userMaster) throws Exception {
+	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
 		if (existsByMobileNumber(userMaster.getMobileNumber())) {
 			log.error(userMaster + "already exists.");
-			throw new Exception("User Master with mobile number " + userMaster.getMobileNumber() + " exists.");
+			throw new DuplicateException("User Master with mobile number " + userMaster.getMobileNumber() + " exists.");
 		}
 		log.info("User found with id " + userMaster.getUserId());
 		return userMasterRepository.save(userMaster);

@@ -1,10 +1,12 @@
-package com.comviva.col.utils;
+package com.comviva.col.utils.responseobjects;
 
 import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Error Class to display Structured error.
@@ -12,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author samarth.sangam
  *
  */
-class ApiError {
+@JsonInclude(Include.NON_NULL)
+public class ApiError {
 
 	private HttpStatus status;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -24,19 +27,19 @@ class ApiError {
 		timestamp = LocalDateTime.now();
 	}
 
-	ApiError(HttpStatus status) {
+	public ApiError(HttpStatus status) {
 		this();
 		this.status = status;
 	}
 
-	ApiError(HttpStatus status, Throwable ex) {
+	public ApiError(HttpStatus status, Throwable ex) {
 		this();
 		this.status = status;
 		this.message = "Unexpected error";
 		this.debugMessage = ex.getLocalizedMessage();
 	}
 
-	ApiError(HttpStatus status, String message, Throwable ex) {
+	public ApiError(HttpStatus status, String message, Throwable ex) {
 		this();
 		this.status = status;
 		this.message = message;

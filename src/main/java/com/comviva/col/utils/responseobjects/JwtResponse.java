@@ -1,4 +1,4 @@
-package com.comviva.col.security;
+package com.comviva.col.utils.responseobjects;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,7 +17,8 @@ public class JwtResponse implements Serializable {
 
 	private static final long serialVersionUID = -8091879091924046844L;
 	private final String jwttoken;
-
+	String email;
+	String username;
 	String location;
 	private Integer userId;
 	String type;
@@ -61,6 +62,22 @@ public class JwtResponse implements Serializable {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

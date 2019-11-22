@@ -3,6 +3,7 @@ package com.comviva.col.restcontroller;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ public class LoginRestController {
 	 * @return
 	 * @throws Exception
 	 */
+	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@PostMapping(value = "{id}/resetPassword")
 	@CrossOrigin(origins = "*")
 	public ResponseEntity<?> resetPassword(@PathVariable int id, @RequestParam String password) throws Exception {

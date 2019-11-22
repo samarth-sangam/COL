@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
+import com.comviva.col.utils.responseobjects.ApiError;
 
 /**
  * REST Exception handler.

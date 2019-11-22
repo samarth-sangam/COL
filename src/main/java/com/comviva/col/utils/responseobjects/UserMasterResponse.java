@@ -1,19 +1,26 @@
-package com.comviva.col.utils.dto;
+package com.comviva.col.utils.responseobjects;
 
-/**
- * 
- * @author samarth.sangam
- *
- */
-public class UserMasterDto {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_NULL)
+public class UserMasterResponse {
+
+	int userId;
 	String username;
-	String password;
 	String email;
 	String mobileNumber;
 	String type;
 	Integer parentId;
 	String location;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public String getUsername() {
 		return username;
@@ -21,14 +28,6 @@ public class UserMasterDto {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getEmail() {
@@ -69,12 +68,6 @@ public class UserMasterDto {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	@Override
-	public String toString() {
-		return "UserMasterDto [username=" + username + ", password=" + password + ", email=" + email + ", mobileNumber="
-				+ mobileNumber + ", type=" + type + ", parentId=" + parentId + ", location=" + location + "]";
 	}
 
 }
