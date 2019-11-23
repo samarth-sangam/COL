@@ -22,6 +22,7 @@ import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.repository.UserMasterRepository;
+import com.comviva.col.utils.PasswordEncryption;
 
 /**
  * @author samarth.sangam
@@ -115,6 +116,20 @@ class UserMasterServiceImplTest {
 		UserMaster userMaster3 = service.addUserMaster(userMaster);
 		assertEquals(userMaster3.getUserId(),
 				service.loginUsingUserId(userMaster3.getUserId(), "password").getUserId());
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.comviva.col.service.UserMasterServiceImpl#resetPassword(int, java.lang.String)}.
+	 */
+	@Test
+	final void testResetPassword() throws NotFoundException, InvalidPasswordException, DuplicateException {
+		this.setUp();
+		userMaster.setMobileNumber("10");
+		UserMaster userMaster4 = service.addUserMaster(userMaster);
+		service.resetPassword(userMaster4.getUserId(), password);
+		assertEquals(PasswordEncryption.encrypt(password),
+				service.viewUserMaster(userMaster4.getUserId()).getPassword());
 	}
 
 	/**
