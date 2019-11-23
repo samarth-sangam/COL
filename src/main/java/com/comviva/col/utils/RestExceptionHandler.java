@@ -2,6 +2,11 @@ package com.comviva.col.utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -56,6 +61,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleFileNotFoundException(Exception ex) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
 		apiError.setMessage(ex.getMessage());
+		return buildResponseEntity(apiError);
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
+		List<String> errors = new ArrayList<>();
+		for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+			errors.add(violation.getRootBeanClass().getName() + " " + violation.getPropertyPath() + ": "
+					+ violation.getMessage());
+		}
+
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+		apiError.setMessage(errors.toString());
 		return buildResponseEntity(apiError);
 	}
 }

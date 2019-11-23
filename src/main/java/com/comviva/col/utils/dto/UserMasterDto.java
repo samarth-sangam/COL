@@ -1,5 +1,7 @@
 package com.comviva.col.utils.dto;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 
  * @author samarth.sangam
@@ -7,12 +9,18 @@ package com.comviva.col.utils.dto;
  */
 public class UserMasterDto {
 
+	@NotNull
 	String username;
+	@NotNull
 	String password;
+	@NotNull
 	String email;
+	@NotNull
 	String mobileNumber;
+	@NotNull
 	String type;
 	Integer parentId;
+	@NotNull
 	String location;
 
 	public String getUsername() {

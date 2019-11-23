@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.comviva.col.exceptions.InvalidPasswordException;
+import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.service.interfaces.IUserMasterService;
 
 /**
@@ -35,12 +37,15 @@ public class LoginRestController {
 	 * @param id
 	 * @param password
 	 * @return
+	 * @throws InvalidPasswordException
+	 * @throws NotFoundException
 	 * @throws Exception
 	 */
 	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@PostMapping(value = "{id}/resetPassword")
 	@CrossOrigin(origins = "*")
-	public ResponseEntity<?> resetPassword(@PathVariable int id, @RequestParam String password) throws Exception {
+	public ResponseEntity<?> resetPassword(@PathVariable int id, @RequestParam(required = true) String password)
+			throws NotFoundException, InvalidPasswordException {
 		log.info("Url pattern /api/v1/login/" + id + "/resetPassword invoked for resetting the password");
 		return ResponseEntity.ok(userMasterService.resetPassword(id, password));
 

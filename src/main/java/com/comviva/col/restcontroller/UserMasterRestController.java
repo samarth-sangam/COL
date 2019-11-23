@@ -1,5 +1,7 @@
 package com.comviva.col.restcontroller;
 
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,7 +51,7 @@ public class UserMasterRestController {
 	@PreAuthorize("hasAnyRole('CIRCLE', 'ADMIN')")
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/userMaster", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> addUserMaster(@RequestBody UserMasterDto userMaster) throws DuplicateException {
+	public ResponseEntity<?> addUserMaster(@RequestBody @Valid UserMasterDto userMaster) throws DuplicateException {
 		log.info("Url pattern /api/v1/userMaster/userMaster invoked for adding new user.");
 		return ResponseEntity.ok(mapper.toResponse(userMasterService.addUserMaster(mapper.toEntity(userMaster))));
 	}
@@ -67,7 +69,7 @@ public class UserMasterRestController {
 	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/userMaster/{id}")
-	public ResponseEntity<?> getUserMaster(@PathVariable int id) throws NotFoundException, InvalidPasswordException {
+	public ResponseEntity<?> getUserMaster(@PathVariable int id) throws NotFoundException {
 		log.info("Url pattern /api/v1/userMaster/" + id + " invoked quering for user with id(" + id + ")");
 		return ResponseEntity.ok(mapper.toResponse(userMasterService.viewByIdWithoutCheckingPassword(id)));
 	}
@@ -97,7 +99,7 @@ public class UserMasterRestController {
 	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@PutMapping(value = "/userMaster/{id}")
 	@CrossOrigin(origins = "*")
-	public ResponseEntity<?> updateUserMaster(@RequestBody UserMasterDto userMasterDto, @PathVariable int id)
+	public ResponseEntity<?> updateUserMaster(@RequestBody @Valid UserMasterDto userMasterDto, @PathVariable int id)
 			throws NotFoundException {
 		log.info("Url pattern /api/v1/userMaster/" + id + " invoked for updating.");
 		return ResponseEntity

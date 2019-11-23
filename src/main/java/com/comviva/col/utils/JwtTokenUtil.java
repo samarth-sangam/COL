@@ -24,7 +24,7 @@ public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -2550185165626007488L;
 
-	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+	public static final long JWT_TOKEN_VALIDITY = 5 * (long) 60;
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -44,7 +44,7 @@ public class JwtTokenUtil implements Serializable {
 		return claimsResolver.apply(claims);
 	}
 
-	// for retrieveing any information from token we will need the secret key
+	// for retrieving any information from token we will need the secret key
 	private Claims getAllClaimsFromToken(String token) {
 		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 	}
@@ -75,7 +75,7 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	// validate token
-	public Boolean validateToken(String token, UserDetails userDetails) {
+	public boolean validateToken(String token, UserDetails userDetails) {
 		final String username = getUsernameFromToken(token);
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}

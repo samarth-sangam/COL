@@ -1,5 +1,7 @@
 package com.comviva.col.restcontroller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,11 +61,14 @@ public class JwtAuthenticationController {
 	 * 
 	 * @param authenticationRequest
 	 * @return
+	 * @throws InvalidPasswordException
+	 * @throws NotFoundException
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/authenticate")
 	@CrossOrigin(origins = "*")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody @Valid JwtRequest authenticationRequest)
+			throws InvalidPasswordException, NotFoundException {
 
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -112,18 +117,16 @@ public class JwtAuthenticationController {
 	 * @param password
 	 * @throws Exception
 	 */
-	private void authenticate(String username, String password) throws Exception {
+	private void authenticate(String username, String password) throws InvalidPasswordException {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			throw new Exception(e);
-		} catch (BadCredentialsException e) {
-			throw new Exception(e);
+		} catch (DisabledException | BadCredentialsException e) {
+			throw new InvalidPasswordException("Invalid Username/Password.");
 		}
 	}
 
 	@PostMapping(value = "/register")
-	public ResponseEntity<?> saveUser(@RequestBody UserMasterDto user)
+	public ResponseEntity<?> saveUser(@RequestBody @Valid UserMasterDto user)
 			throws UnauthorizedException, DuplicateException {
 		if (repository.existsByRole("ADMIN")) {
 			throw new UnauthorizedException("ADMIN exists, Cannot create anymore Admin");

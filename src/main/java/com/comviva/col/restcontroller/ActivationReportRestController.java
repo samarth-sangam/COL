@@ -83,8 +83,9 @@ public class ActivationReportRestController {
 	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@GetMapping(value = "/allActivationReport")
 	@CrossOrigin(origins = "*")
-	public ResponseEntity<?> viewActivationReportFromAndToDate(@RequestParam String fromDate,
-			@RequestParam String toDate, @RequestParam String agentCode) throws Exception {
+	public ResponseEntity<?> viewActivationReportFromAndToDate(@RequestParam(required = true) String fromDate,
+			@RequestParam(required = true) String toDate, @RequestParam(required = true) String agentCode)
+			throws Exception {
 		log.info(
 				"Url pattern /api/v1/activationReport/allActivationReport invoked for seaching the activation report from("
 						+ fromDate + "), toDate(" + toDate + ") agentCode(" + agentCode + ")");
