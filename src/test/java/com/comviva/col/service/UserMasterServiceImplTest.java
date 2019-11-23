@@ -43,6 +43,8 @@ class UserMasterServiceImplTest {
 
 	private List<UserMaster> list = new ArrayList<>();
 
+	private String password = "password";
+
 	void setUp() {
 		userMaster = new UserMaster();
 		userMaster.setEmail("email");
@@ -125,8 +127,8 @@ class UserMasterServiceImplTest {
 		this.setUp();
 		userMaster.setMobileNumber("10");
 		UserMaster userMaster4 = service.addUserMaster(userMaster);
-		assertEquals(PasswordEncryption.encrypt("password"),
-				service.resetPassword(userMaster4.getUserId(), "password").getPassword());
+		assertEquals(PasswordEncryption.encrypt(password),
+				service.resetPassword(userMaster4.getUserId(), password).getPassword());
 	}
 
 	/**
