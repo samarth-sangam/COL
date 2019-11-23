@@ -15,7 +15,7 @@
 	<name>col</name>
 	<description>Channel Online Management</description>
 
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
