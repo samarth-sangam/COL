@@ -87,7 +87,7 @@ public class UserMasterRestController {
 	@GetMapping(value = "/userMaster/{id}")
 	public ResponseEntity<?> getUserMaster(@PathVariable int id) throws NotFoundException {
 		log.info("Url pattern /api/v1/userMaster/" + id + " invoked quering for user with id(" + id + ")");
-		return ResponseEntity.ok(mapper.toResponse(userMasterService.viewByIdWithoutCheckingPassword(id)));
+		return ResponseEntity.ok(userMasterService.viewByIdWithoutCheckingPassword(id));
 	}
 
 	/**

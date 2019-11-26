@@ -94,7 +94,6 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	@Override
 	public UserMaster updateUserMaster(UserMaster userMaster, int id) throws DuplicateException {
 		UserMaster u = this.viewUserMaster(id);
-		System.out.println(u);
 		if (u == null) {
 			log.error(UserMasterDaoImpl.USER_NOT_FOUND_WITH_ID + userMaster.getUserId());
 			throw new DuplicateException("UserMaster not Found");
