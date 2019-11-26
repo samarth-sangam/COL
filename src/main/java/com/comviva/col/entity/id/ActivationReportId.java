@@ -8,8 +8,10 @@ import java.time.LocalDateTime;
 
 /**
  * @author samarth.sangam
+ * @deprecated
  *
  */
+@Deprecated
 public class ActivationReportId implements Serializable {
 
 	/**

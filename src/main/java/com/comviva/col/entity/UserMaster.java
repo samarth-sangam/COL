@@ -1,6 +1,6 @@
 package com.comviva.col.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public class UserMaster {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	int userId;
+	Integer userId;
 
 	@Column(name = "user_name")
 	String username;
@@ -47,13 +47,16 @@ public class UserMaster {
 	Integer parentId;
 
 	@Column(name = "date")
-	LocalDate passwordChangeDate;
+	LocalDateTime passwordChangeDate;
 
-	public int getUserId() {
+	@Column(name = "on_board_time")
+	LocalDateTime onBoardTime = LocalDateTime.now();
+
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -105,14 +108,6 @@ public class UserMaster {
 		this.parentId = parentId;
 	}
 
-	public LocalDate getPasswordChangeDate() {
-		return passwordChangeDate;
-	}
-
-	public void setPasswordChangeDate(LocalDate passwordChangeDate) {
-		this.passwordChangeDate = passwordChangeDate;
-	}
-
 	public String getLocation() {
 		return location;
 	}
@@ -121,11 +116,27 @@ public class UserMaster {
 		this.location = location;
 	}
 
+	public LocalDateTime getPasswordChangeDate() {
+		return passwordChangeDate;
+	}
+
+	public void setPasswordChangeDate(LocalDateTime passwordChangeDate) {
+		this.passwordChangeDate = passwordChangeDate;
+	}
+
+	public LocalDateTime getOnBoardTime() {
+		return onBoardTime;
+	}
+
+	public void setOnBoardTime(LocalDateTime onBoardTime) {
+		this.onBoardTime = onBoardTime;
+	}
+
 	@Override
 	public String toString() {
 		return "UserMaster [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", mobileNumber=" + mobileNumber + ", type=" + type + ", parentId=" + parentId
-				+ ", passwordChangeDate=" + passwordChangeDate + "]";
+				+ ", mobileNumber=" + mobileNumber + ", type=" + type + ", location=" + location + ", parentId="
+				+ parentId + ", passwordChangeDate=" + passwordChangeDate + ", onBoardTime=" + onBoardTime + "]";
 	}
 
 }

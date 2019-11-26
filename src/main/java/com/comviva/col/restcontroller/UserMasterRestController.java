@@ -1,5 +1,9 @@
 package com.comviva.col.restcontroller;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -14,13 +18,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.comviva.col.entity.UserMaster;
 import com.comviva.col.exceptions.DuplicateException;
+import com.comviva.col.exceptions.InternalException;
 import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
+import com.comviva.col.service.FileStorageService;
 import com.comviva.col.service.interfaces.IUserMasterService;
 import com.comviva.col.utils.dto.UserMasterDto;
+import com.comviva.col.utils.mapper.CSVToEntity;
 import com.comviva.col.utils.mapper.UserMasterMapper;
 
 /**
@@ -38,6 +48,12 @@ public class UserMasterRestController {
 	private IUserMasterService userMasterService;
 
 	private UserMasterMapper mapper = new UserMasterMapper();
+
+	@Autowired
+	private FileStorageService fileStorageService;
+
+	@Autowired
+	private CSVToEntity csvMapper;
 
 	private Logger log = Logger.getLogger(UserMasterRestController.class);
 
@@ -119,5 +135,52 @@ public class UserMasterRestController {
 	public ResponseEntity<?> getListUserMasterByParentId(@PathVariable int parentId) throws NotFoundException {
 		log.info("url pattern /api/v1/userMaster/parentid/" + parentId + " invoked");
 		return ResponseEntity.ok(userMasterService.viewAllByParentId(parentId));
+	}
+
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 * @throws DuplicateException
+	 */
+	@PreAuthorize("hasAnyRole('ADMIN', 'CIRCLE')")
+	@PostMapping(value = "userMaster/all")
+	@CrossOrigin(origins = "*")
+	public ResponseEntity<?> addAllUserMaster(@RequestParam("file") MultipartFile file)
+			throws IOException, DuplicateException {
+		String fileName = fileStorageService.storeFile(file);
+		List<UserMaster> list = csvMapper.readCSVintoUserMaster(fileName);
+		try {
+			userMasterService.addAllUserMaster(list);
+			log.info("Reports Added");
+		} catch (DuplicateException e) {
+			log.info("Duplicates: ", e);
+			throw e;
+		}
+		return ResponseEntity.ok("All UserMaster Added");
+	}
+
+	/**
+	 * REST api to view ActivationReports from particular data to a particular date.
+	 * 
+	 * @param fromDate
+	 * @param toDate
+	 * @param agentCode
+	 * @return
+	 * @throws InternalException
+	 * @throws NotFoundException
+	 * @throws Exception
+	 */
+	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
+	@GetMapping(value = "/activationReports")
+	@CrossOrigin(origins = "*")
+	public ResponseEntity<?> viewActivationReportFromAndToDate(@RequestParam(required = true) String fromDate,
+			@RequestParam(required = true) String toDate) throws NotFoundException, InternalException {
+		log.info(
+				"Url pattern /api/v1/activationReport/allActivationReport invoked for seaching the activation report from("
+						+ fromDate + "), toDate(" + toDate + ")");
+		return ResponseEntity
+				.ok(userMasterService.viewByFromAndToDate(LocalDate.parse(fromDate), LocalDate.parse(toDate)));
 	}
 }

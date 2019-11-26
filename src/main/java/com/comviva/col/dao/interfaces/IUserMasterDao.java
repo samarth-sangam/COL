@@ -1,8 +1,10 @@
 package com.comviva.col.dao.interfaces;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.comviva.col.entity.UserMaster;
+import com.comviva.col.exceptions.InternalException;
 
 /**
  * Interface for UserMaster Dao.
@@ -78,4 +80,21 @@ public interface IUserMasterDao {
 	 * @return
 	 */
 	List<UserMaster> viewAllByByParentId(int parentId);
+
+	/**
+	 * Save In Batch. Creates Auth Table entry aswell.
+	 * 
+	 * @param entities
+	 * @return
+	 */
+	int saveInBatch(Iterable<UserMaster> entities);
+
+	/**
+	 * 
+	 * @param fromDate
+	 * @param toDate
+	 * @return
+	 * @throws InternalException
+	 */
+	List<UserMaster> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate) throws InternalException;
 }

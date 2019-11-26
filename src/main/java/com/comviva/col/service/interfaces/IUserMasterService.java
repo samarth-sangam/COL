@@ -1,9 +1,11 @@
 package com.comviva.col.service.interfaces;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.comviva.col.entity.UserMaster;
 import com.comviva.col.exceptions.DuplicateException;
+import com.comviva.col.exceptions.InternalException;
 import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
 
@@ -99,5 +101,24 @@ public interface IUserMasterService {
 	 * @throws NotFoundException
 	 */
 	UserMaster viewByIdWithoutCheckingPassword(int id) throws NotFoundException;
+
+	/**
+	 * 
+	 * @param list
+	 * @throws DuplicateException
+	 */
+	void addAllUserMaster(List<UserMaster> list) throws DuplicateException;
+
+	/**
+	 * 
+	 * @param localDate
+	 * @param localDate2
+	 * @return
+	 * @throws InternalException
+	 * @throws NotFoundException
+	 * @throws Exception
+	 */
+	List<UserMaster> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate)
+			throws NotFoundException, InternalException;
 
 }

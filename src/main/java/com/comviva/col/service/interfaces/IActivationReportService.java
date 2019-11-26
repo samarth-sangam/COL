@@ -12,8 +12,10 @@ import com.comviva.col.utils.dto.ActivationReportDto;
  * Interface for ActivationReport Service.
  * 
  * @author samarth.sangam, mahendra.prajapati
+ * @deprecated
  *
  */
+@Deprecated
 public interface IActivationReportService {
 
 	/**

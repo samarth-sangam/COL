@@ -22,7 +22,6 @@ import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.service.FileStorageService;
 import com.comviva.col.service.interfaces.IActivationReportService;
 import com.comviva.col.utils.dto.ActivationReportDto;
-import com.comviva.col.utils.mapper.ActivationReportMapper;
 import com.comviva.col.utils.mapper.CSVToEntity;
 
 /**
@@ -30,7 +29,9 @@ import com.comviva.col.utils.mapper.CSVToEntity;
  * 
  * @author samarth.sangam, mahendra.prajapati
  * @since 28-October-2019
+ * @deprecated
  */
+@Deprecated
 @RestController
 @RequestMapping(value = "/api/v1/activationReport/")
 public class ActivationReportRestController {
@@ -38,12 +39,13 @@ public class ActivationReportRestController {
 	@Autowired
 	private IActivationReportService activationReportService;
 
-	private ActivationReportMapper mapper = new ActivationReportMapper();
-
 	private Logger log = Logger.getLogger(ActivationReportRestController.class);
 
 	@Autowired
 	private FileStorageService fileStorageService;
+
+	@Autowired
+	private CSVToEntity cSVToEntity;
 
 	/**
 	 * REST api to add ActivationReports from csv file.
@@ -62,7 +64,7 @@ public class ActivationReportRestController {
 			throws IOException, DuplicateException {
 		log.info("Url pattern /api/v1/activationReport/allActivationReport invoked for adding report in bulk.");
 		String fileName = fileStorageService.storeFile(file);
-		List<ActivationReportDto> list = CSVToEntity.getInstance().readCSVFileIntoActivationReportObject(fileName);
+		List<ActivationReportDto> list = cSVToEntity.readCSVFileIntoActivationReportObject(fileName);
 		if (list == null)
 			log.error("Failed to convert csv to list. List object is identified as null.");
 		activationReportService.addAllActivationReport(list);

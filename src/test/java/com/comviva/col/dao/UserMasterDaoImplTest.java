@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +51,7 @@ class UserMasterDaoImplTest {
 		userMaster.setMobileNumber("mobileNumber");
 		userMaster.setParentId(2);
 		userMaster.setPassword("password");
-		userMaster.setPasswordChangeDate(LocalDate.of(2019, 10, 01));
+		userMaster.setPasswordChangeDate(LocalDateTime.now());
 		userMaster.setType("type");
 		userMaster.setUsername("username");
 		userMaster.setUserId(userId);
@@ -81,6 +81,7 @@ class UserMasterDaoImplTest {
 	 */
 	@Test
 	final void testAddUserMaster_Exception() {
+		@SuppressWarnings("unused")
 		UserMaster actual;
 		try {
 			actual = dao.addUserMaster(userMaster);

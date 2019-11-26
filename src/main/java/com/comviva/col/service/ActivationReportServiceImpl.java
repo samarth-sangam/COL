@@ -20,9 +20,11 @@ import com.comviva.col.utils.mapper.ActivationReportMapper;
  * Activation Report Service implementations.
  * 
  * @author samarth.sangam, mahendra.prajapati
+ * @deprecated
  *
  */
 @Service
+@Deprecated
 public class ActivationReportServiceImpl implements IActivationReportService {
 	protected ActivationReportMapper mapper = new ActivationReportMapper();
 	@Autowired
@@ -34,7 +36,7 @@ public class ActivationReportServiceImpl implements IActivationReportService {
 	public List<ActivationReport> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String agentCode)
 			throws Exception {
 		List<ActivationReport> list = activationReportDao.viewByFromAndToDate(fromDate, toDate, agentCode);
-		if (list == null) {
+		if (list.size() == 0) {
 			NotFoundException notFoundException = new NotFoundException(
 					"No Activation Report found from " + fromDate + " to" + toDate);
 			log.error("No activation record found between range " + fromDate + " -> " + toDate + "with agentCode",

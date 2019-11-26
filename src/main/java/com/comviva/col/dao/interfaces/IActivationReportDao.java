@@ -9,8 +9,10 @@ import com.comviva.col.entity.ActivationReport;
  * Interface for Activation Report DAO.
  * 
  * @author samarth.sangam, mahendra.prajapti
+ * @deprecated
  *
  */
+@Deprecated
 public interface IActivationReportDao {
 
 	/**

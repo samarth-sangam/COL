@@ -1,8 +1,10 @@
 package com.comviva.col.dao;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -16,8 +18,10 @@ import com.comviva.col.entity.id.ActivationReportId;
  * ActivationReport Dao Implementations.
  * 
  * @author samarth.sangam, mahendra.prajapati
+ * @deprecated
  *
  */
+@Deprecated
 @Repository
 @Transactional
 public class ActivationReportDaoImpl extends AbstractDaoImpl<ActivationReport, ActivationReportId>
@@ -30,7 +34,12 @@ public class ActivationReportDaoImpl extends AbstractDaoImpl<ActivationReport, A
 	@Override
 	public List<ActivationReport> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate, String id)
 			throws Exception {
-		return super.viewByFromAndToDate(fromDate, toDate, id, TABLE_NAME);
+
+		try {
+			return super.viewByFromAndToDate(fromDate, toDate, id, TABLE_NAME);
+		} catch (NoResultException e) {
+			return new ArrayList<>();
+		}
 	}
 
 	@Override

@@ -9,8 +9,9 @@ import com.comviva.col.utils.dto.ActivationReportDto;
  * Mapper for ActivationReport.
  * 
  * @author samarth.sangam
- *
+ * @deprecated
  */
+@Deprecated
 public class ActivationReportMapper {
 
 	private ModelMapper modelMapper = new ModelMapper();

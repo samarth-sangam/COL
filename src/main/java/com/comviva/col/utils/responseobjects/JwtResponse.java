@@ -1,7 +1,7 @@
 package com.comviva.col.utils.responseobjects;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -22,7 +22,7 @@ public class JwtResponse implements Serializable {
 	String location;
 	private Integer userId;
 	String type;
-	LocalDate passwordChangeDate;
+	LocalDateTime passwordChangeDate;
 
 	public Integer getUserId() {
 		return userId;
@@ -48,12 +48,20 @@ public class JwtResponse implements Serializable {
 		this.type = type;
 	}
 
-	public LocalDate getPasswordChangeDate() {
+	public LocalDateTime getPasswordChangeDate() {
 		return passwordChangeDate;
 	}
 
-	public void setPasswordChangeDate(LocalDate passwordChangeDate) {
+	public void setPasswordChangeDate(LocalDateTime passwordChangeDate) {
 		this.passwordChangeDate = passwordChangeDate;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getJwttoken() {
+		return jwttoken;
 	}
 
 	public String getLocation() {

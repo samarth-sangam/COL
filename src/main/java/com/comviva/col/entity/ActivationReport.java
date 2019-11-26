@@ -15,8 +15,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * 
  * 
  * @author samarth.sangam, mahendra.prajapati
+ * @deprecated
  *
  */
+@Deprecated
 @JsonInclude(Include.NON_NULL)
 @Entity(name = "COL_ACTIVATION_REPORT")
 @IdClass(ActivationReportId.class)

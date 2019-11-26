@@ -5,7 +5,7 @@ package com.comviva.col.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +42,7 @@ class UserMasterServiceImplTest {
 
 	private List<UserMaster> list = new ArrayList<>();
 
+	@SuppressWarnings("unused")
 	private String password = "password";
 
 	void setUp() {
@@ -51,7 +52,7 @@ class UserMasterServiceImplTest {
 		userMaster.setLocation("location");
 		userMaster.setMobileNumber("mobileNumber");
 		userMaster.setParentId(12);
-		userMaster.setPasswordChangeDate(LocalDate.now());
+		userMaster.setPasswordChangeDate(LocalDateTime.now());
 		userMaster.setPassword("password");
 		list.add(userMaster);
 	}
@@ -137,6 +138,7 @@ class UserMasterServiceImplTest {
 	final void testLoginUsingMobileNumber() throws NotFoundException, InvalidPasswordException, DuplicateException {
 		this.setUp();
 		userMaster.setMobileNumber("11");
+		@SuppressWarnings("unused")
 		UserMaster userMaster6 = service.addUserMaster(userMaster);
 		assertEquals("11", service.loginUsingMobileNumber("11", "password").getMobileNumber());
 	}

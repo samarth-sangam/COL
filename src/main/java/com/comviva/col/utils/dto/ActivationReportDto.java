@@ -9,8 +9,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * ActivationReport Data transfer Object.
  * 
  * @author samarth.sangam
+ * @deprecated
  *
  */
+@Deprecated
 @JsonInclude(Include.NON_NULL)
 public class ActivationReportDto {
 

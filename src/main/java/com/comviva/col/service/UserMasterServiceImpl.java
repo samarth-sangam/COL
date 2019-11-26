@@ -1,6 +1,7 @@
 package com.comviva.col.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -13,6 +14,7 @@ import com.comviva.col.dao.interfaces.IUserMasterDao;
 import com.comviva.col.entity.AuthUser;
 import com.comviva.col.entity.UserMaster;
 import com.comviva.col.exceptions.DuplicateException;
+import com.comviva.col.exceptions.InternalException;
 import com.comviva.col.exceptions.InvalidPasswordException;
 import com.comviva.col.exceptions.NotFoundException;
 import com.comviva.col.service.interfaces.IUserMasterService;
@@ -38,7 +40,6 @@ public class UserMasterServiceImpl implements IUserMasterService {
 
 	@Override
 	public UserMaster addUserMaster(UserMaster userMaster) throws DuplicateException {
-		System.out.println(userMaster);
 		String password = userMaster.getPassword();
 		userMaster.setPassword(PasswordEncryption.encrypt(password));
 		try {
@@ -127,7 +128,7 @@ public class UserMasterServiceImpl implements IUserMasterService {
 		UserMaster userMaster = userMasterDao.viewUserMaster(id);
 		updateAuthUser(userMaster, password);
 		userMaster.setPassword(PasswordEncryption.encrypt(password));
-		userMaster.setPasswordChangeDate(LocalDate.now());
+		userMaster.setPasswordChangeDate(LocalDateTime.now());
 		return userMasterDao.updateWithoutCheckingForUserMaster(userMaster);
 	}
 
@@ -179,6 +180,33 @@ public class UserMasterServiceImpl implements IUserMasterService {
 			throw notFoundException;
 		}
 		return userMaster;
+	}
+
+	@Override
+	public void addAllUserMaster(List<UserMaster> list) throws DuplicateException {
+		System.out.println("dao");
+		int count = userMasterDao.saveInBatch(list);
+		if (count == 0) {
+			return;
+		}
+		throw new DuplicateException("Number of Duplicates found: " + count);
+
+	}
+
+	@Override
+	public List<UserMaster> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate)
+			throws NotFoundException, InternalException {
+		List<UserMaster> list;
+		try {
+			list = userMasterDao.viewByFromAndToDate(fromDate, toDate);
+		} catch (NoResultException e) {
+			NotFoundException notFoundException = new NotFoundException(
+					"No Activation Report found from " + fromDate + " to" + toDate);
+			log.error("No activation record found between range " + fromDate + " -> " + toDate, notFoundException);
+			throw notFoundException;
+
+		}
+		return list;
 	}
 
 }
