@@ -92,13 +92,17 @@ public class UserMasterDaoImpl implements IUserMasterDao {
 	}
 
 	@Override
-	public UserMaster updateUserMaster(UserMaster userMaster) throws DuplicateException {
-		if (exists(userMaster.getUserId())) {
-			log.info("Updating the user record for id = " + userMaster.getUserId());
-			return userMasterRepository.save(userMaster);
+	public UserMaster updateUserMaster(UserMaster userMaster, int id) throws DuplicateException {
+		UserMaster u = this.viewUserMaster(id);
+		System.out.println(u);
+		if (u == null) {
+			log.error(UserMasterDaoImpl.USER_NOT_FOUND_WITH_ID + userMaster.getUserId());
+			throw new DuplicateException("UserMaster not Found");
 		}
-		log.error(UserMasterDaoImpl.USER_NOT_FOUND_WITH_ID + userMaster.getUserId());
-		throw new DuplicateException("UserMaster not Found");
+		u.setEmail(userMaster.getEmail());
+		u.setUsername(userMaster.getUsername());
+		log.info("Updating the user record for id = " + userMaster.getUserId());
+		return userMasterRepository.save(u);
 	}
 
 	private boolean exists(int userId) {

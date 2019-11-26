@@ -111,7 +111,7 @@ class UserMasterDaoImplTest {
 		userMaster.setMobileNumber("895186549");
 		UserMaster u = dao.addUserMaster(userMaster);
 		u.setEmail("email1");
-		assertEquals("email1", dao.updateUserMaster(u).getEmail());
+		assertEquals("email1", dao.updateUserMaster(u, u.getUserId()).getEmail());
 	}
 
 	/**
@@ -126,7 +126,7 @@ class UserMasterDaoImplTest {
 		userMaster.setUserId(1000);
 		userMaster.setEmail("email1");
 		try {
-			assertEquals("email1", dao.updateUserMaster(userMaster));
+			assertEquals("email1", dao.updateUserMaster(userMaster, userId));
 		} catch (Exception e) {
 			assertEquals("UserMaster not Found", e.getMessage());
 		}

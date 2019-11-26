@@ -102,7 +102,7 @@ class UserMasterServiceImplTest {
 		this.setUp();
 		userMaster.setMobileNumber("3");
 		UserMaster userMaster1 = service.addUserMaster(userMaster);
-		assertEquals("email", service.updateUserMaster(userMaster1).getEmail());
+		assertEquals("email", service.updateUserMaster(userMaster1, userMaster1.getUserId()).getEmail());
 	}
 
 	/**

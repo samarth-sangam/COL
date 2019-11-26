@@ -115,11 +115,11 @@ public class UserMasterRestController {
 	@PreAuthorize("hasAnyRole('USER', 'CIRCLE', 'ADMIN')")
 	@PutMapping(value = "/userMaster/{id}")
 	@CrossOrigin(origins = "*")
-	public ResponseEntity<?> updateUserMaster(@RequestBody @Valid UserMasterDto userMasterDto, @PathVariable int id)
+	public ResponseEntity<?> updateUserMaster(@RequestBody UserMaster userMasterDto, @PathVariable int id)
 			throws NotFoundException {
 		log.info("Url pattern /api/v1/userMaster/" + id + " invoked for updating.");
-		return ResponseEntity
-				.ok(mapper.toResponse(userMasterService.updateUserMaster(mapper.toEntity(userMasterDto, id))));
+		userMasterDto.setUserId(id);
+		return ResponseEntity.ok(mapper.toResponse(userMasterService.updateUserMaster(userMasterDto, id)));
 	}
 
 	/**

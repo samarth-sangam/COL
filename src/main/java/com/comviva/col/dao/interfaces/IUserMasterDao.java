@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.comviva.col.entity.UserMaster;
+import com.comviva.col.exceptions.DuplicateException;
 import com.comviva.col.exceptions.InternalException;
 
 /**
@@ -38,16 +39,6 @@ public interface IUserMasterDao {
 	 * @return
 	 */
 	List<UserMaster> viewAllByType(String type);
-
-	/**
-	 * Update UserMaster. Check whether userMaster with given id is present or not.
-	 * Update is present.
-	 * 
-	 * @param userMaster
-	 * @return
-	 * @throws Exception
-	 */
-	UserMaster updateUserMaster(UserMaster userMaster) throws Exception;
 
 	/**
 	 * Delete UserMaster.
@@ -97,4 +88,14 @@ public interface IUserMasterDao {
 	 * @throws InternalException
 	 */
 	List<UserMaster> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate) throws InternalException;
+
+	/**
+	 * Update UserMaster. Check whether userMaster with given id is present or not.
+	 * Update is present.
+	 * 
+	 * @param userMaster
+	 * @return
+	 * @throws Exception
+	 */
+	UserMaster updateUserMaster(UserMaster userMaster, int id) throws DuplicateException;
 }

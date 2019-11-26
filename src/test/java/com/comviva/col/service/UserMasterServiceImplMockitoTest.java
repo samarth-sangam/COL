@@ -94,7 +94,6 @@ class UserMasterServiceImplMockitoTest {
 		}
 	}
 
-
 	/**
 	 * Test method for
 	 * {@link com.comviva.col.service.UserMasterServiceImpl#viewUserMaster(int)}.
@@ -177,8 +176,8 @@ class UserMasterServiceImplMockitoTest {
 	 */
 	@Test
 	final void testUpdateUserMaster_Success() throws NotFoundException {
-		when(service.updateUserMaster(userMaster)).thenReturn(userMaster);
-		assertEquals(userMaster, service.updateUserMaster(userMaster));
+		when(service.updateUserMaster(userMaster, userId)).thenReturn(userMaster);
+		assertEquals(userMaster, service.updateUserMaster(userMaster, userId));
 	}
 
 	/**
@@ -189,8 +188,8 @@ class UserMasterServiceImplMockitoTest {
 	@Test
 	final void testUpdateUserMaster_Failure() {
 		try {
-			when(service.updateUserMaster(userMaster)).thenThrow(new NotFoundException(NOT_EXISTS));
-			service.updateUserMaster(userMaster);
+			when(service.updateUserMaster(userMaster, userId)).thenThrow(new NotFoundException(NOT_EXISTS));
+			service.updateUserMaster(userMaster, userId);
 			fail("failure");
 		} catch (NotFoundException e) {
 			assertEquals(NOT_EXISTS, e.getMessage());

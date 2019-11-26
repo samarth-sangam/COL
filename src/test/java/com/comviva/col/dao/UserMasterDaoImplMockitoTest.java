@@ -111,8 +111,8 @@ class UserMasterDaoImplMockitoTest {
 	 */
 	@Test
 	final void testUpdateUserMaster_Success() throws Exception {
-		when(dao.updateUserMaster(userMaster)).thenReturn(userMaster);
-		assertEquals(userMaster, dao.updateUserMaster(userMaster));
+		when(dao.updateUserMaster(userMaster, userId)).thenReturn(userMaster);
+		assertEquals(userMaster, dao.updateUserMaster(userMaster, userId));
 	}
 
 	/**
@@ -124,8 +124,8 @@ class UserMasterDaoImplMockitoTest {
 	@Test
 	final void testUpdateUserMaster_Failure() {
 		try {
-			when(dao.updateUserMaster(userMaster)).thenThrow(new Exception("Not Exists"));
-			dao.updateUserMaster(userMaster);
+			when(dao.updateUserMaster(userMaster, userId)).thenThrow(new Exception("Not Exists"));
+			dao.updateUserMaster(userMaster, userId);
 		} catch (Exception e) {
 			assertNotNull(e);
 			return;

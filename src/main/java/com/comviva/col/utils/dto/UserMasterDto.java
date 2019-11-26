@@ -11,7 +11,6 @@ public class UserMasterDto {
 
 	@NotNull
 	String username;
-	@NotNull
 	String password;
 	@NotNull
 	String email;

@@ -102,10 +102,9 @@ public class UserMasterServiceImpl implements IUserMasterService {
 	}
 
 	@Override
-	public UserMaster updateUserMaster(UserMaster userMaster) throws NotFoundException {
+	public UserMaster updateUserMaster(UserMaster userMaster, int id) throws NotFoundException {
 		try {
-			userMaster.setPassword(PasswordEncryption.encrypt(userMaster.getPassword()));
-			return userMasterDao.updateUserMaster(userMaster);
+			return userMasterDao.updateUserMaster(userMaster, id);
 		} catch (Exception e) {
 			throw new NotFoundException("UserMaster with id " + userMaster.getUserId() + ".");
 		}

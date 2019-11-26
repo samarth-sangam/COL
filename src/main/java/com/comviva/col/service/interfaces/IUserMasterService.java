@@ -45,15 +45,6 @@ public interface IUserMasterService {
 	List<UserMaster> viewAllByTypeUserMaster(String type) throws NotFoundException;
 
 	/**
-	 * Updates UserMaster if userMaster with userId exists else throws exceptions.
-	 * 
-	 * @param userMaster
-	 * @return
-	 * @throws NotFoundException
-	 */
-	UserMaster updateUserMaster(UserMaster userMaster) throws NotFoundException;
-
-	/**
 	 * Login by userId and password.
 	 * 
 	 * @param userName
@@ -120,5 +111,15 @@ public interface IUserMasterService {
 	 */
 	List<UserMaster> viewByFromAndToDate(LocalDate fromDate, LocalDate toDate)
 			throws NotFoundException, InternalException;
+
+	/**
+	 * Updates UserMaster if userMaster with userId exists else throws exceptions.
+	 * 
+	 * @param userMaster
+	 * @return
+	 * @throws NotFoundException
+	 */
+
+	UserMaster updateUserMaster(UserMaster userMaster, int id) throws NotFoundException;
 
 }
